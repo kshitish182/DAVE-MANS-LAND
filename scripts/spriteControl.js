@@ -1,13 +1,13 @@
 class SpriteControl{
-	constructor(ctx , spriteRefrence , spriteInitialPosX, spriteInitialPosY, spriteWidth , spriteHeight ,spritePlotX , spritePlotY , elmntWidth, elmntHeight){
+	constructor(ctx , spriteRefrence , spriteWidth , spriteHeight ,spritePlotX , spritePlotY , elmntWidth, elmntHeight){
 		this.ctx = ctx;
 
 		//refrence of game element send for creating sprites
 		this.spriteRefrence = spriteRefrence;    
 
 		//initial position in sprite sheet from where clipping is done
-		this.spriteInitialPosX = 0;  
-		this.spriteInitialPosY = 0;
+		// this.spriteInitialPosX = 0;  
+		// this.spriteInitialPosY = 0;
 
 		//sprite size to be  clipped
 		this.spriteWidth = spriteWidth;
@@ -23,11 +23,12 @@ class SpriteControl{
 	}
 
 	drawSprite(){
-		this.ctx.drawImage(this.spriteRefrence , this.spriteInitialPosX , this.spriteInitialPosY , this.spriteWidth , this.spriteHeight , this.spritePlotX , this.spritePlotY , 50 ,50);
-		this.spriteInitialX += this.spriteWidth;
+		console.log(spriteInitialPosX);
+		this.ctx.drawImage(this.spriteRefrence , spriteInitialPosX , spriteInitialPosY , this.spriteWidth , this.spriteHeight , this.spritePlotX , this.spritePlotY , this.elmntWidth , this.elmntHeight);
+		spriteInitialPosX += this.spriteWidth;
 		countSpriteImage++;
 		if(countSpriteImage > 5){
-			this.spriteInitialX = 0;
+			spriteInitialPosX = 0;
 			countSpriteImage = 0;
 		}
 	}
