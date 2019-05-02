@@ -10,6 +10,8 @@ class Map{
 		this.tileHeight = 10;
 		this.elementCounter = 0;
 		this.loadComplete = false;
+		// this.spriteInitialX = 0;
+		// this.spriteInitialY = 0;
 	}
 
 	// loadLevel1(ctx){
@@ -84,13 +86,14 @@ class Map{
 					break;
 
 					case 5:
-					ctx.drawImage(cup , spriteInitialX , spriteInitialY , 50 ,50 , j*50 , i*50 , 50 , 50);
-					spriteInitialX += 50;
-					countSpriteImage++;
-					if(countSpriteImage > 5){
-						spriteInitialX = 0;
-						countSpriteImage = 0;
-					}
+					let spriteCreater = new spriteControl(ctx, cup , 0 , 0 , 50 ,50 , j*50 , i*50 , 50 ,50);
+					spriteCreater.drawSprite();
+					// spriteInitialX += 50;
+					// countSpriteImage++;
+					// if(countSpriteImage > 5){
+					// 	spriteInitialX = 0;
+					// 	countSpriteImage = 0;
+					// }
 					break;
 
 					case 6:
