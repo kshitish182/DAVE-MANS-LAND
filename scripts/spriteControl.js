@@ -1,3 +1,5 @@
+let frameCount = 0;
+
 class SpriteControl{
 	constructor(ctx , spriteRefrence , spriteWidth , spriteHeight ,spritePlotX , spritePlotY , elmntWidth, elmntHeight , spriteNumber){
 		this.ctx = ctx;
@@ -34,18 +36,34 @@ class SpriteControl{
 		this.ctx.drawImage(this.spriteRefrence , this.spriteInitialPosX , this.spriteInitialPosY , this.spriteWidth , this.spriteHeight , this.spritePlotX , this.spritePlotY , this.elmntWidth , this.elmntHeight);
 		this.spriteInitialPosX += this.spriteWidth;
 		this.countSpriteImage++;
+		// console.log('cup',this.countSpriteImage);
 		if(this.countSpriteImage > this.spriteNumber){
 			this.spriteInitialPosX = 0;
 			this.countSpriteImage = 0;
 		}
 	}
 
-	drawSpriteDynamic(directionX , directionY , flag){
+	drawSpriteDynamic(directionX , directionY , buttonPress){
+		
+
+		// console.log(this.spritePlotX , this.spriteInitialPosX);
+
 		this.ctx.drawImage(this.spriteRefrence , this.spriteInitialPosX , this.spriteInitialPosY , this.spriteWidth , this.spriteHeight , this.spritePlotX , this.spritePlotY , this.elmntWidth , this.elmntHeight);
-		if(flag){
-			this.spriteInitialPosX += this.spriteWidth;
-			this.spritePlotX += directionX;
-			this.spritePlotY += directionY;
+		// console.log(buttonPress);
+		frameCount++;
+		if(frameCount > 2){
+			if(buttonPress){	
+				this.spriteInitialPosX += this.spriteWidth;
+				this.spritePlotX += directionX;
+				this.spritePlotY += directionY;
+				this.countSpriteImage++;
+			// console.log('hero',this.countSpriteImage);
+				if(this.countSpriteImage >= this.spriteNumber){
+					this.spriteInitialPosX = this.spriteWidth;
+					this.countSpriteImage = 1;
+				}
+			}
+			frameCount = 0;
 		}
 	}
 }

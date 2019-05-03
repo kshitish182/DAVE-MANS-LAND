@@ -81,5 +81,5 @@ entryTunnel.src = gameElements.entryTunnel.src;
 let door = new Image();
 door.src = gameElements.door.src;
 
-characterRight = new Image();
+let characterRight = new Image();
 characterRight.src = gameElements.characterRight.src;

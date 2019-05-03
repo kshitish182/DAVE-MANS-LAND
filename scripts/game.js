@@ -1,5 +1,5 @@
 
-let controller = [false, false, false];   //[leftArrow upArrow rightArrow]
+  //[leftArrow upArrow rightArrow]
 
 // let spriteInitialPosX = 0;
 // let spriteInitialPosY = 0;
@@ -11,9 +11,15 @@ let heroPositionX = 100;
 let heroPositionY = 400;
 // let directionX = 5;
 // let directionY = 5;
+ // let controller = {
+	// 		upArrow : false,
+	// 		leftArrow : false,
+	// 		rightArrow : false
+	// 	}
 
 class Game{
 	constructor(canvasWidth, canvasHeight , tileMap){
+		let that = this;
 		this.canvas = document.getElementById('canvas');
 		this.ctx = this.canvas.getContext('2d');
 		this.canvas.width = canvasWidth;
@@ -31,6 +37,8 @@ class Game{
 		this.mapLevel1 = new Map(this.tileMap.level1 , this.ctx);
 		this.hero = new Hero(heroPositionX , heroPositionY , this.ctx);
 
+		this.buttonPress = false;
+		this.frameCount =0;
 	}
 
 	// levelController(){
@@ -39,7 +47,7 @@ class Game{
 
 animate(){
 	this.mapLevel1.drawMap();
-	this.hero.moveHero();
+	this.hero.moveHero(this.buttonPress);
 	// this.eventController();
 	window.requestAnimationFrame(() => this.animate());
 }
@@ -78,22 +86,30 @@ animate(){
 // }
 
 	eventController(){
-		document.addEventListener('keydown', event => {
-			if(event.code === 'ArrowRight'){
-				controller[2] = true;
-			}
-			if(event.code === 'ArrowLeft'){
-				controller[0] = true;
-			}
-			if(event.code === 'ArrowUp'){
-				controller[1] = true;
-			}
-			console.log(controller);
-		});
+			document.addEventListener('keydown', event => {
+					if(event.code === 'ArrowRight'){
+						controller[2] = true;
+					}
+					if(event.code === 'ArrowLeft'){
+						controller[0] = true;
+					}
+					if(event.code === 'ArrowUp'){
+						controller[1] = true;
+					}
+					this.buttonPress = true;
+			});
 
 		document.addEventListener('keyup', event =>{
+				// this.controller = {
+				// 		upArrow : false,
+				// 		leftArrow : false,
+				// 		rightArrow : false,
+				// }
+				// controller.upArrow = false;
+				// controller.upArrow = false;
+				// controller.upArrow = false;
+				this.buttonPress = false;
 				controller = [false , false , false];
-			
 		});
 	}
 }
