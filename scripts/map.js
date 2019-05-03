@@ -1,8 +1,8 @@
-let spriteInitialX = 0;
-let spriteInitialY = 0;
+// let spriteInitialPosX = 0;
+// let spriteInitialPosY = 0;
 
 class Map{
-	constructor(mapLevel){
+	constructor(mapLevel,ctx){
 		this.mapLevel = mapLevel;
 		this.gameElements = gameElements;
 		this.elementSize = 50; //width and height is same
@@ -10,6 +10,9 @@ class Map{
 		this.tileHeight = 10;
 		this.elementCounter = 0;
 		this.loadComplete = false;
+		this.ctx = ctx;
+
+		this.spriteCreater = new SpriteControl(ctx , cup , 50 , 50 , 0 , 0 , 50 ,50 ,5)
 		// this.spriteInitialX = 0;
 		// this.spriteInitialY = 0;
 	}
@@ -65,29 +68,31 @@ class Map{
 					// console.log((i*this.tileWidth + j));
 					case 1:
 					if(imageLoaded = true){
-						ctx.drawImage(redBrick , j*this.elementSize , i*this.elementSize , this.elementSize , this.elementSize);
+						this.ctx.drawImage(redBrick , j*this.elementSize , i*this.elementSize , this.elementSize , this.elementSize);
 					}
 					break;
 
 					case 0:
-					ctx.drawImage(blank , j*this.elementSize , i*this.elementSize , this.elementSize , this.elementSize);
-					break;
+						this.ctx.drawImage(blank , j*this.elementSize , i*this.elementSize , this.elementSize , this.elementSize);
+						break;
 
 					case 2:
-					ctx.drawImage(mudBrick , j*this.elementSize , i*this.elementSize , this.elementSize , this.elementSize);
-					break;
+						this.ctx.drawImage(mudBrick , j*this.elementSize , i*this.elementSize , this.elementSize , this.elementSize);
+						break;
 
 					case 3:
-					ctx.drawImage(whiteDiamond , j*this.elementSize , i*this.elementSize , this.elementSize , this.elementSize);
-					break;
+						this.ctx.drawImage(whiteDiamond , j*this.elementSize , i*this.elementSize , this.elementSize , this.elementSize);
+						break;
 
 					case 4:
-					ctx.drawImage(redDiamond, j*this.elementSize , i*this.elementSize , this.elementSize , this.elementSize);
-					break;
+						this.ctx.drawImage(redDiamond, j*this.elementSize , i*this.elementSize , this.elementSize , this.elementSize);
+						break;
 
 					case 5:
-					let spriteCreater = new spriteControl(ctx, cup , 0 , 0 , 50 ,50 , j*50 , i*50 , 50 ,50);
-					spriteCreater.drawSprite();
+					// let spriteCreater = new SpriteControl(ctx, cup , 50 ,50 , j*50 , i*50 , 50 ,50 , 5);
+					this.spriteCreater.spritePlotX = j*50;
+					this.spriteCreater.spritePlotY = i*50;
+					this.spriteCreater.drawSpriteStatic();
 					// spriteInitialX += 50;
 					// countSpriteImage++;
 					// if(countSpriteImage > 5){
@@ -97,12 +102,12 @@ class Map{
 					break;
 
 					case 6:
-					ctx.drawImage(entryTunnel , j*this.elementSize , i*this.elementSize , this.elementSize , this.elementSize);
-					break;
+						this.ctx.drawImage(entryTunnel , j*this.elementSize , i*this.elementSize , this.elementSize , this.elementSize);
+						break;
 
 					case 7:
-					ctx.drawImage(door , j*this.elementSize , i*this.elementSize , this.elementSize , this.elementSize);
-					break;
+						this.ctx.drawImage(door , j*this.elementSize , i*this.elementSize , this.elementSize , this.elementSize);
+						break;
 					
 					default:
 					console.log('imagecode not found');

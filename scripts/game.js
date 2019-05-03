@@ -1,16 +1,16 @@
 
 let controller = [false, false, false];   //[leftArrow upArrow rightArrow]
 
-// let spriteInitialX = 0;
-// let spriteInitialY = 0;
+// let spriteInitialPosX = 0;
+// let spriteInitialPosY = 0;
 let spriteHeroInitialX = 0;
 let spriteHeroInitialY = 0;
 let countSpriteImage = 0;
 let countSpriteImageHero = 0;
 let heroPositionX = 100;
 let heroPositionY = 400;
-let directionX = 5;
-let directionY = 5;
+// let directionX = 5;
+// let directionY = 5;
 
 class Game{
 	constructor(canvasWidth, canvasHeight , tileMap){
@@ -28,7 +28,8 @@ class Game{
 
 		this.tileMap = tileMap;
 
-		this.mapLevel1 = new Map(this.tileMap.level1);
+		this.mapLevel1 = new Map(this.tileMap.level1 , this.ctx);
+		this.hero = new Hero(heroPositionX , heroPositionY , this.ctx);
 
 	}
 
@@ -37,44 +38,44 @@ class Game{
 	// }
 
 animate(){
-	this.mapLevel1.drawMap(this.ctx);
-	this.hero();
+	this.mapLevel1.drawMap();
+	this.hero.moveHero();
 	// this.eventController();
 	window.requestAnimationFrame(() => this.animate());
 }
 
-hero(){
-	this.moveHero();
-	this.renderHero();
-}
+// hero(){
+// 	this.moveHero();
+// 	this.renderHero();
+// }
 
-renderHero(){
-	this.ctx.fillStyle = "#FF0000";
-	this.ctx.fillRect(heroPositionX , heroPositionY , 50 , 50);
-}
+// renderHero(){
+// 	this.ctx.fillStyle = "#FF0000";
+// 	this.ctx.fillRect(heroPositionX , heroPositionY , 50 , 50);
+// }
 
-moveHero(){
-	// console.log('x', heroPositionX , 'y' , heroPositionY);
-	if(controller[0]  && controller[1]){
-		heroPositionX -= directionX;
-		heroPositionY -= directionY;
-	}
-	else if(controller[1] && controller[2]){
-		heroPositionY -= directionY;
-		heroPositionX += directionX;
-	}
-	else if(controller[0]){
-		heroPositionX -= directionX; 
-	}
-	else if(controller[1]){
-		heroPositionY -= directionY;
-	}
-	else if(controller[2]){
-		heroPositionX += directionX;
-	}else{
-		heroPositionY += directionX/4;
-	}
-}
+// moveHero(){
+// 	// console.log('x', heroPositionX , 'y' , heroPositionY);
+// 	if(controller[0]  && controller[1]){
+// 		heroPositionX -= directionX;
+// 		heroPositionY -= directionY;
+// 	}
+// 	else if(controller[1] && controller[2]){
+// 		heroPositionY -= directionY;
+// 		heroPositionX += directionX;
+// 	}
+// 	else if(controller[0]){
+// 		heroPositionX -= directionX; 
+// 	}
+// 	else if(controller[1]){
+// 		heroPositionY -= directionY;
+// 	}
+// 	else if(controller[2]){
+// 		heroPositionX += directionX;
+// 	}else{
+// 		heroPositionY += directionX/4;
+// 	}
+// }
 
 	eventController(){
 		document.addEventListener('keydown', event => {
