@@ -33,12 +33,15 @@ class Game{
 		this.canvas.style.border = '1px solid black';	
 
 		this.tileMap = tileMap;
-
-		this.mapLevel1 = new Map(this.tileMap.level1 , this.ctx);
-		this.hero = new Hero(heroPositionX , heroPositionY , this.ctx);
-
 		this.buttonPress = false;
 		this.frameCount =0;
+		this.gravity = 'off';
+		this.frameCount = 0;
+
+		//creating objects
+		this.mapLevel1 = new Map(this.tileMap.level1 , this.ctx);
+		this.hero = new Hero(heroPositionX , heroPositionY , this.ctx , this.gravity);
+
 	}
 
 	// levelController(){
@@ -48,7 +51,9 @@ class Game{
 animate(){
 	this.mapLevel1.drawMap();
 	this.hero.moveHero(this.buttonPress);
+	this.hero.scanElements(this.mapLevel1) // scanning the tile map to check for collision
 	// this.eventController();
+	// console.log(controller);
 	window.requestAnimationFrame(() => this.animate());
 }
 
@@ -84,31 +89,31 @@ animate(){
 // 		heroPositionY += directionX/4;
 // 	}
 // }
+		
 
 	eventController(){
 			document.addEventListener('keydown', event => {
-					if(event.code === 'ArrowRight'){
-						controller[2] = true;
-					}
-					if(event.code === 'ArrowLeft'){
-						controller[0] = true;
-					}
-					if(event.code === 'ArrowUp'){
-						controller[1] = true;
-					}
-					this.buttonPress = true;
+					this.hero.gravity = 'off';
+						if(event.code === 'ArrowRight'){
+							controller[2] = true;
+							this.buttonPress = true;
+						}
+						if(event.code === 'ArrowLeft'){
+							controller[0] = true;
+							this.buttonPress = true;
+						}
+						if(event.code === 'ArrowUp'){
+							controller[1] = true;
+							this.buttonPress = true;
+						}
+						if(!this.buttonPress){
+							this.hero.gravity = 'on';
+						}
 			});
 
 		document.addEventListener('keyup', event =>{
-				// this.controller = {
-				// 		upArrow : false,
-				// 		leftArrow : false,
-				// 		rightArrow : false,
-				// }
-				// controller.upArrow = false;
-				// controller.upArrow = false;
-				// controller.upArrow = false;
 				this.buttonPress = false;
+				this.hero.gravity = 'on';
 				controller = [false , false , false];
 		});
 	}

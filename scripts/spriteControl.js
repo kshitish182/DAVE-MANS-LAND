@@ -1,5 +1,3 @@
-let frameCount = 0;
-
 class SpriteControl{
 	constructor(ctx , spriteRefrence , spriteWidth , spriteHeight ,spritePlotX , spritePlotY , elmntWidth, elmntHeight , spriteNumber){
 		this.ctx = ctx;
@@ -28,15 +26,16 @@ class SpriteControl{
 
 		//counting the sprites for sheet rotation
 		this.countSpriteImage = 0;
+
+		//for counting the number of frames called by request animation method
+		this.frameCount = 0;
 	}
 
 	//drawing sprite images of static or non-movable game elements
 	drawSpriteStatic(){
-		// console.log(this.spriteRefrence);
 		this.ctx.drawImage(this.spriteRefrence , this.spriteInitialPosX , this.spriteInitialPosY , this.spriteWidth , this.spriteHeight , this.spritePlotX , this.spritePlotY , this.elmntWidth , this.elmntHeight);
 		this.spriteInitialPosX += this.spriteWidth;
 		this.countSpriteImage++;
-		// console.log('cup',this.countSpriteImage);
 		if(this.countSpriteImage > this.spriteNumber){
 			this.spriteInitialPosX = 0;
 			this.countSpriteImage = 0;
@@ -44,26 +43,39 @@ class SpriteControl{
 	}
 
 	drawSpriteDynamic(directionX , directionY , buttonPress){
-		
-
-		// console.log(this.spritePlotX , this.spriteInitialPosX);
 
 		this.ctx.drawImage(this.spriteRefrence , this.spriteInitialPosX , this.spriteInitialPosY , this.spriteWidth , this.spriteHeight , this.spritePlotX , this.spritePlotY , this.elmntWidth , this.elmntHeight);
-		// console.log(buttonPress);
-		frameCount++;
-		if(frameCount > 2){
-			if(buttonPress){	
-				this.spriteInitialPosX += this.spriteWidth;
-				this.spritePlotX += directionX;
-				this.spritePlotY += directionY;
-				this.countSpriteImage++;
-			// console.log('hero',this.countSpriteImage);
-				if(this.countSpriteImage >= this.spriteNumber){
-					this.spriteInitialPosX = this.spriteWidth;
-					this.countSpriteImage = 1;
-				}
-			}
-			frameCount = 0;
+		
+		this.frameCount++;
+		//holding the movement of character for 3 frames (to manage speed)
+		if(this.frameCount > 3){
+			if(buttonPress){
+					this.spriteInitialPosX += 50;
+					this.spritePlotX += directionX;
+					this.spritePlotY += directionY;
+					this.countSpriteImage++;
+					if(this.countSpriteImage >= this.spriteNumber ){ 
+							this.spriteInitialPosX = 50;
+							this.countSpriteImage = 1;
+					  if(controller[0]) {
+							this.spriteInitialPosX = 250;
+							this.countSpriteImage = 0;
+						}
+					}
+
+					//character moving left 
+				// 	if(controller[0]){
+				// 		this.spriteInitialPosX += 50;
+				// 		this.spritePlotX += directionX;
+				// 		this.spritePlotY += directionY;
+				// 		this.countSpriteImage++;
+				// 		if(this.countSpriteImage >= this.spriteNumber){
+				// 			this.spriteInitialPosX = 150;
+				// 			this.countSpriteImage = 0;
+				// 		}
+				// 	}
+		 	}
+			this.frameCount = 0;
 		}
 	}
 }

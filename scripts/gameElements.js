@@ -48,8 +48,8 @@ const gameElements = {
 		collision : true
 	},
 
-	characterRight : {
-		src: 'assets/images/character-right.png'
+	character : {
+		src: 'assets/images/character.png'
 	}
 }
 
@@ -81,5 +81,5 @@ entryTunnel.src = gameElements.entryTunnel.src;
 let door = new Image();
 door.src = gameElements.door.src;
 
-let characterRight = new Image();
-characterRight.src = gameElements.characterRight.src;
+let character = new Image();
+character.src = gameElements.character.src;
