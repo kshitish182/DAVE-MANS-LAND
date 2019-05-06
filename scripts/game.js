@@ -38,6 +38,9 @@ class Game{
 		this.gravity = 'off';
 		this.frameCount = 0;
 
+		//tracking the number of times the control button is pressed
+		this.eventCounter = 0; 
+
 		//creating objects
 		this.mapLevel1 = new Map(this.tileMap.level1 , this.ctx);
 		this.hero = new Hero(heroPositionX , heroPositionY , this.ctx , this.gravity);
@@ -91,37 +94,52 @@ animate(){
 // }
 		
 
-	eventController(){
-			document.addEventListener('keydown', event => {
-					this.hero.gravity = 'off';
-						if(event.code === 'ArrowRight'){
-							controller[2] = true;
-							this.buttonPress = true;
-						}
-						if(event.code === 'ArrowLeft'){
-							controller[0] = true;
-							this.buttonPress = true;
-						}
-						if(event.code === 'ArrowUp'){
-							controller[1] = true;
-							this.buttonPress = true;
-						}
-						if(!this.buttonPress){
-							this.hero.gravity = 'on';
-						}
-			});
+	// eventController(){
+	// 		document.addEventListener('keydown', event => {
+	// 				this.hero.gravity = 'off';
+	// 					if(i >= 2){
+	// 						i=0;
+	// 					}
+	// 					if(event.keyCode === 39){    //right-arrow
+	// 						controller[2] = true;
+	// 						this.buttonPress = true;
+	// 						this.hero.charRightFaced = true;
+	// 						controllerLog[i]= event.keyCode;
+	// 						i++;
+	// 					}
+	// 					if(event.keyCode === 37){   //left-arrow
+	// 						controller[0] = true;
+	// 						this.buttonPress = true;
+	// 						this.hero.charRightFaced = false;
+	// 						controllerLog[i]= event.keyCode;
+	// 						i++;
+	// 					}
+	// 					if(event.keyCode === 38  && !this.hero.jump){   //up-arrow
+	// 							// console.log(event);
+	// 							controller[1] = true;
+	// 							this.buttonPress = true;
+	// 							this.eventCounter = 0;
+	// 							controllerLog[i]= event.keyCode;
+	// 							i++;
+	// 					}
+	// 					if(!this.buttonPress){
+	// 						this.hero.gravity = 'on';
+	// 					}
+	// 		});
 
-		document.addEventListener('keyup', event =>{
-				this.buttonPress = false;
-				this.hero.gravity = 'on';
-				controller = [false , false , false];
-		});
-	}
+	// 	document.addEventListener('keyup', event =>{
+	// 			this.buttonPress = false;
+	// 			this.hero.gravity = 'on';
+	// 			// controller = [false , false , false];
+	// 			controller[0] = false; //left-arrow
+	// 			controller[2] = false; //right-arrow
+	// 	});
+	// }
 }
 
 let game = new Game(1000 , 500 , mapLayouts);
 
-game.eventController();
+game.hero.eventController();
 game.animate();
 
 

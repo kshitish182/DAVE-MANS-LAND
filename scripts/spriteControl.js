@@ -42,26 +42,51 @@ class SpriteControl{
 		}
 	}
 
-	drawSpriteDynamic(directionX , directionY , buttonPress){
+	drawSpriteUp(directionX , directionY , buttonPress , onAir , charRightFaced){
 
-		this.ctx.drawImage(this.spriteRefrence , this.spriteInitialPosX , this.spriteInitialPosY , this.spriteWidth , this.spriteHeight , this.spritePlotX , this.spritePlotY , this.elmntWidth , this.elmntHeight);
+		// this.ctx.drawImage(this.spriteRefrence , this.spriteInitialPosX , this.spriteInitialPosY , this.spriteWidth , this.spriteHeight , this.spritePlotX , this.spritePlotY , this.elmntWidth , this.elmntHeight);
 		
+		this.ctx.drawImage(this.spriteRefrence , this.spriteInitialPosX , this.spriteInitialPosY , this.spriteWidth , this.spriteHeight , this.spritePlotX , this.spritePlotY , this.elmntWidth , this.elmntHeight);
 		this.frameCount++;
 		//holding the movement of character for 3 frames (to manage speed)
 		if(this.frameCount > 3){
-			if(buttonPress){
-					this.spriteInitialPosX += 50;
-					this.spritePlotX += directionX;
+
+			//cheacking if the control key is pressed
+			// if(buttonPress){    
+			// 		this.spritePlotX += directionX;
+			// 		this.spritePlotY += directionY;
+			// 			if(!onAir){
+			// 				this.spriteInitialPosX += 50;
+			// 				this.countSpriteImage++;
+			// 			}
+			// 		if(this.countSpriteImage >= this.spriteNumber ){ 
+			// 				this.spriteInitialPosX = 50;
+			// 				this.countSpriteImage = 1;
+			// 		  if(controller[0]) {
+			// 				this.spriteInitialPosX = 250;
+			// 				this.countSpriteImage = 0;
+			// 			}
+			// 			if(controller[1]){
+			// 				if(controllerLog[0] === 37){
+			// 					this.spriteInitialPosX = 400;
+			// 					this.countSpriteImage = 9;
+			// 				}else{
+			// 					this.spriteInitialPosX = 200;
+			// 					this.countSpriteImage = 4;
+			// 				}
+			// 			}
+			// 		}
+
+					// if(controller[2]){
+					// 	this.drawSpriteRight(directionX , directionY);
+					// }else if(controller[0]){
+					// 	this.drawSpriteLeft(directionX  , directionY);
+					// }else if(controller[1]){
+					// 	this.drawSpriteUp(directionX , directionY ,charRightFaced , onAir);
+					// }
+
+					this.spriteInitialPosX = 200;
 					this.spritePlotY += directionY;
-					this.countSpriteImage++;
-					if(this.countSpriteImage >= this.spriteNumber ){ 
-							this.spriteInitialPosX = 50;
-							this.countSpriteImage = 1;
-					  if(controller[0]) {
-							this.spriteInitialPosX = 250;
-							this.countSpriteImage = 0;
-						}
-					}
 
 					//character moving left 
 				// 	if(controller[0]){
@@ -74,8 +99,69 @@ class SpriteControl{
 				// 			this.countSpriteImage = 0;
 				// 		}
 				// 	}
-		 	}
+		 	//}
 			this.frameCount = 0;
 		}
 	}
+
+	drawSpriteRight(directionX , directionY, buttonPress , onAir){
+		this.ctx.drawImage(this.spriteRefrence , this.spriteInitialPosX , this.spriteInitialPosY , this.spriteWidth , this.spriteHeight , this.spritePlotX , this.spritePlotY , this.elmntWidth , this.elmntHeight);
+		this.frameCount++;
+		if(this.frameCount > 3){
+			if(buttonPress){
+				this.spriteInitialPosX += 50;
+				this.spritePlotX += directionX;
+				this.spritePlotY += directionY;
+				this.countSpriteImage++;
+				if(this.countSpriteImage >= this.spriteNumber ){ 
+			 		this.spriteInitialPosX = 50;
+			 		this.countSpriteImage = 1;
+				}
+			}
+		}
+	}
+
+	drawSpriteLeft(directionX , directionY, buttonPress, onAir){
+		this.ctx.drawImage(this.spriteRefrence , this.spriteInitialPosX , this.spriteInitialPosY , this.spriteWidth , this.spriteHeight , this.spritePlotX , this.spritePlotY , this.elmntWidth , this.elmntHeight);
+		this.frameCount++;
+		if(this.frameCount > 3){
+			this.spriteInitialPosX +=50;
+			this.spritePlotX -= 50;
+			this.countSpriteImage++;
+			if(this.countSpriteImage >= this.spriteNumber){
+				this.spriteInitialPosX = 250;
+				this.countSpriteImage = 0;
+			}
+		}
+	}
+
+
+	// drawSpriteRight(dx , dy ){
+	// 	this.spriteInitialPosX +=50;
+	// 	this.spritePlotX += dx;
+	// 	this.countSpriteImage++;
+	// 	if(this.countSpriteImage >= this.spriteNumber){
+	// 		this.spriteInitialPosX =50;
+	// 		this.countSpriteImage = 0;
+	// 	}
+	// }
+
+	// drawSpriteLeft(dx , dy){
+	// 	this.spriteInitialPosX += 50;
+	// 	this.spritePlotX += dx;
+	// 	this.countSpriteImage++;
+	// 	if(this.countSpriteImage >= this.spriteNumber){
+	// 		this.spriteInitialPosX = 250;
+	// 		this.countSpriteImage = 0;
+	// 	}
+	// }
+
+	// drawSpriteUp(dx, dy, charRightFaced , onAir){
+	// 	// this.ctx.drawImage(this.spriteRefrence , this.spriteInitialPosX , this.spriteInitialPosY , this.spriteWidth , this.spriteHeight , this.spritePlotX , this.spritePlotY , this.elmntWidth , this.elmntHeight);
+	// 	// this.spriteInitialPosX = 200;
+	// 	// this.spritePlotY -= dy;
+
+	// 	// console.log(charRightFaced);
+	// }
+	
 }

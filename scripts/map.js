@@ -67,9 +67,7 @@ class Map{
 				switch(this.mapLevel[((i*this.tileWidth) + j)]){
 					// console.log((i*this.tileWidth + j));
 					case 1:
-					if(imageLoaded = true){
 						this.ctx.drawImage(redBrick , j*this.elementSize , i*this.elementSize , this.elementSize , this.elementSize);
-					}
 					break;
 
 					case 0:
