@@ -235,27 +235,27 @@ class Hero{
 		let collisionIndexValue = this.collisionMap.level1[((mapLevel1.tileWidth*topPos) + leftPos)]; 
 
 		//collision checked for the topleft position of the game elements
-		this.checkCollision(leftPos*SPRITE_SIZE , topPos*SPRITE_SIZE , collisionIndexValue);
+		this.checkCollision(leftPos*SPRITE_SIZE , topPos*SPRITE_SIZE , collisionIndexValue , mapLevel1);
 
 
 		//now for topright position co-ordinates
 		topPos = Math.floor(this.heroPositionY/SPRITE_SIZE) // re-defining topPos for new interation of collision check
 		let rightPos = Math.floor((this.heroPositionX + SPRITE_SIZE) / SPRITE_SIZE);
 		collisionIndexValue = this.collisionMap.level1[((mapLevel1.tileWidth*topPos) + rightPos)];
-		this.checkCollision(rightPos*SPRITE_SIZE , topPos*SPRITE_SIZE , collisionIndexValue);
+		this.checkCollision(rightPos*SPRITE_SIZE , topPos*SPRITE_SIZE , collisionIndexValue , mapLevel1);
 
 
 		//for bottomleft position co-ordinates
 		let bottomPos = Math.floor((this.heroPositionY + SPRITE_SIZE) / SPRITE_SIZE);
 		leftPos = Math.floor(this.heroPositionX / SPRITE_SIZE);
 		collisionIndexValue = this.collisionMap.level1[((mapLevel1.tileWidth*bottomPos) + leftPos)];
-		this.checkCollision(leftPos*SPRITE_SIZE , bottomPos*SPRITE_SIZE , collisionIndexValue);
+		this.checkCollision(leftPos*SPRITE_SIZE , bottomPos*SPRITE_SIZE , collisionIndexValue , mapLevel1);
 
 		//for bottomright position co-ordinates
 		bottomPos = Math.floor((this.heroPositionY + SPRITE_SIZE) / SPRITE_SIZE);
 		rightPos = Math.floor((this.heroPositionX + SPRITE_SIZE) / SPRITE_SIZE);
 		collisionIndexValue = this.collisionMap.level1[((mapLevel1.tileWidth*bottomPos) + rightPos)];
-		this.checkCollision(rightPos*SPRITE_SIZE , bottomPos*SPRITE_SIZE , collisionIndexValue);
+		this.checkCollision(rightPos*SPRITE_SIZE , bottomPos*SPRITE_SIZE , collisionIndexValue , mapLevel1);
 
 		// console.log(topPos , leftPos , bottomPos , rightPos);
 		// console.log(this.heroPositionX , this.heroPositionY);
@@ -294,7 +294,7 @@ class Hero{
 	}
 
 	//checking for collision after obtaining the elements
-	checkCollision(xCord , yCord , collisionIndex){   // x and y co-ordinates of four corners of the character
+	checkCollision(xCord , yCord , collisionIndex, mapLevel1){   // x and y co-ordinates of four corners of the character
 		// console.log(collisionIndex);
 		switch(collisionIndex){
 			case 1:
@@ -339,6 +339,12 @@ class Hero{
 				this.checkCollisionRight(xCord, yCord);
 				break;
 
+			case 13:
+				this.checkCollisionTop(xCord , yCord);
+				this.checkCollisionRight(xCord , yCord);
+				this.checkCollisionBottom(xCord , yCord);
+				break;
+
 			case 14:
 				this.checkCollisionTop(xCord , yCord);
 				this.checkCollisionRight(xCord , yCord);
@@ -346,11 +352,15 @@ class Hero{
 				break; 
 
 			case 15:
-			this.checkCollisionTop(xCord , yCord);
-			this.checkCollisionBottom(xCord , yCord);
-			this.checkCollisionRight(xCord , yCord);
-			this.checkCollisionLeft(xCord , yCord);
-			break;
+				this.checkCollisionTop(xCord , yCord);
+				this.checkCollisionBottom(xCord , yCord);
+				this.checkCollisionRight(xCord , yCord);
+				this.checkCollisionLeft(xCord , yCord);
+				break;
+
+			case 16:
+				this.checkCollisionCon(xCord , yCord , mapLevel1);
+				break;
 
 			// default:
 			// console.log('tile index not found');
@@ -361,10 +371,8 @@ class Hero{
 	checkCollisionBottom(x , y){
 		//for bottom side wall of the elements
 		// console.log(y);
-		
-		console.log(this.heroPositionY);
 		if(this.heroPositionY <= (y + SPRITE_SIZE) && this.oldvalueY >=(y + SPRITE_SIZE)){
-			console.log('collsion detected');
+			console.log('collision detected');
 			this.directionY = 0;
 			// controller[1] = false;
 			this.heroPositionY = y + SPRITE_SIZE;
@@ -392,7 +400,6 @@ class Hero{
 	 }
 
  	checkCollisionRight(x , y){
- 		console.log('right', x + SPRITE_SIZE);
  		if(this.heroPositionX < (x + SPRITE_SIZE) && this.oldvalueX >=(x + SPRITE_SIZE)){
  			// console.log('collision-right');
  			if(controller[0]){
@@ -408,7 +415,7 @@ class Hero{
 
  	checkCollisionTop(x,y){
  		// console.log(y);
- 		console.log(this.oldvalueX , this.oldvalueY , this.heroPositionX , this.heroPositionY);
+ 		
  		if((this.heroPositionY + SPRITE_SIZE) > y  &&  (this.oldvalueY+SPRITE_SIZE) <= y ){
  			// console.log('collision-top');
  			// console.log('collision');
@@ -438,6 +445,15 @@ class Hero{
   	}else{
   		this.directionX = 5;
   		return false;
+  	}
+  }
+
+  checkCollisionCon(x , y , mapLevel1){
+  	if(this.heroPositionX + SPRITE_SIZE > x  || this.heroPositionX + SPRITE_SIZE > y || this.heroPositionX < (x + SPRITE_SIZE)){
+  		let j = x/SPRITE_SIZE;
+  		let i = y/SPRITE_SIZE;
+  		console.log(i*mapLevel1.tileWidth + j);
+  		this.mapLayouts.level1[(i*mapLevel1.tileWidth) + j] = 0;
   	}
   }
 
