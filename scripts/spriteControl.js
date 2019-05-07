@@ -46,14 +46,7 @@ class SpriteControl{
 	}
 
 
-
-
-
-
-
-
-
-	drawSpriteUp(directionX , directionY , buttonPress , jump , charRightFaced){
+	drawSpriteUp(directionX , directionY , buttonPress  , charRightFaced){
 
 		// this.ctx.drawImage(this.spriteRefrence , this.spriteInitialPosX , this.spriteInitialPosY , this.spriteWidth , this.spriteHeight , this.spritePlotX , this.spritePlotY , this.elmntWidth , this.elmntHeight);
 		
@@ -62,40 +55,7 @@ class SpriteControl{
 		//holding the movement of character for 3 frames (to manage speed)
 		if(this.frameCount > 2){
 			if(buttonPress){
-			//cheacking if the control key is pressed
-			// if(buttonPress){    
-			// 		this.spritePlotX += directionX;
-			// 		this.spritePlotY += directionY;
-			// 			if(!onAir){
-			// 				this.spriteInitialPosX += 50;
-			// 				this.countSpriteImage++;
-			// 			}
-			// 		if(this.countSpriteImage >= this.spriteNumber ){ 
-			// 				this.spriteInitialPosX = 50;
-			// 				this.countSpriteImage = 1;
-			// 		  if(controller[0]) {
-			// 				this.spriteInitialPosX = 250;
-			// 				this.countSpriteImage = 0;
-			// 			}
-			// 			if(controller[1]){
-			// 				if(controllerLog[0] === 37){
-			// 					this.spriteInitialPosX = 400;
-			// 					this.countSpriteImage = 9;
-			// 				}else{
-			// 					this.spriteInitialPosX = 200;
-			// 					this.countSpriteImage = 4;
-			// 				}
-			// 			}
-			// 		}
-
-					// if(controller[2]){
-					// 	this.drawSpriteRight(directionX , directionY);
-					// }else if(controller[0]){
-					// 	this.drawSpriteLeft(directionX  , directionY);
-					// }else if(controller[1]){
-					// 	this.drawSpriteUp(directionX , directionY ,charRightFaced , onAir);
-					// }
-					
+					console.log(charRightFaced);
 					if(charRightFaced){
 						this.spriteInitialPosX = 200;	
 					}else{
@@ -105,36 +65,9 @@ class SpriteControl{
 						this.spritePlotY -= directionY;
 					// this.spritePlotX = this.spritePlotX;
 				}
-
-					//character moving left 
-				// 	if(controller[0]){
-				// 		this.spriteInitialPosX += 50;
-				// 		this.spritePlotX += directionX;
-				// 		this.spritePlotY += directionY;
-				// 		this.countSpriteImage++;
-				// 		if(this.countSpriteImage >= this.spriteNumber){
-				// 			this.spriteInitialPosX = 150;
-				// 			this.countSpriteImage = 0;
-				// 		}
-				// 	}
-		 	//}
 			this.frameCount = 0;
 		}
 	}
-
-	// drawCharMoveSprite(directionX , directionY , buttonPress , onAir , charRightFaced){
-	// 	if(controller[0]){
-	// 		this.drawSpriteLeft(directionX , buttonPress , onAir);
-	// 	}else if(controller[2]){
-	// 		this.drawSpriteRight(directionX , buttonPress , onAir);
-	// 	}else if(!controller[0] && !controller[1] && !controller[2]){
-	// 		if(charRightFaced){
-	// 			this.drawSpriteRight(directionX , buttonPress , onAir);
-	// 		}else{
-	// 			this.drawSpriteLeft(directionX , buttonPress , onAir);
-	// 		}
-	// 	}
-	// }
 
 	drawSpriteRight(directionX , directionY, buttonPress , onAir){
 		this.ctx.drawImage(this.spriteRefrence , this.spriteInitialPosX , this.spriteInitialPosY , this.spriteWidth , this.spriteHeight , this.spritePlotX , this.spritePlotY , this.elmntWidth , this.elmntHeight);
@@ -171,34 +104,5 @@ class SpriteControl{
 			this.frameCount = 0;
 		}
 	}
-
-
-	// drawSpriteRight(dx , dy ){
-	// 	this.spriteInitialPosX +=50;
-	// 	this.spritePlotX += dx;
-	// 	this.countSpriteImage++;
-	// 	if(this.countSpriteImage >= this.spriteNumber){
-	// 		this.spriteInitialPosX =50;
-	// 		this.countSpriteImage = 0;
-	// 	}
-	// }
-
-	// drawSpriteLeft(dx , dy){
-	// 	this.spriteInitialPosX += 50;
-	// 	this.spritePlotX += dx;
-	// 	this.countSpriteImage++;
-	// 	if(this.countSpriteImage >= this.spriteNumber){
-	// 		this.spriteInitialPosX = 250;
-	// 		this.countSpriteImage = 0;
-	// 	}
-	// }
-
-	// drawSpriteUp(dx, dy, charRightFaced , onAir){
-	// 	// this.ctx.drawImage(this.spriteRefrence , this.spriteInitialPosX , this.spriteInitialPosY , this.spriteWidth , this.spriteHeight , this.spritePlotX , this.spritePlotY , this.elmntWidth , this.elmntHeight);
-	// 	// this.spriteInitialPosX = 200;
-	// 	// this.spritePlotY -= dy;
-
-	// 	// console.log(charRightFaced);
-	// }
 	
 }

@@ -14,6 +14,8 @@ class Hero{
 	constructor(heroPositionX , heroPOsitionY , ctx ){
 		this.heroPositionX = heroPositionX;
 		this.heroPositionY = heroPositionY;
+		this.oldvalueX = heroPositionX;
+		this.oldvalueY = heroPositionY;
 		
 		//distance in x and y direction moved by the character in a single event
 		this.directionX = 5;
@@ -46,7 +48,6 @@ class Hero{
 	}
 
 	renderHero(buttonPress){
-		console.log(this.charRightFaced);
 		// console.log(controllerLog);
 		//this is the default positioning of the character (right faced)
 		// console.log(controller);
@@ -66,6 +67,7 @@ class Hero{
 		}else if (controller[0] && !this.onAir){
 			this.heroSpriteLeft.drawSpriteLeft(this.directionX , this.directionY , this.buttonPress , this.onAir);
 		}else if(controller[1] || this.onAir){
+			// console.log(this.charRightFaced);
 			this.heroSpriteUp.drawSpriteUp(this.directionX , this.directionY , this.buttonPress , this.charRightFaced);
 		}
 		else if(!controller[0] && !controller[2] && !controller[1]){
@@ -113,6 +115,8 @@ class Hero{
 						if(jumpCount <= 150){
 							this.onAir = true;
 							// this.jump = true;
+							this.oldvalueX = this.heroPositionX;
+							this.oldvalueY = this.heroPositionY;
 							this.heroPositionY -= 5;
 							this.heroPositionX = this.heroPositionX;
 							jumpCount += 5;
@@ -124,6 +128,8 @@ class Hero{
 						if(controller[2]){
 							if(this.onAir){
 								if(sideplacementright <= 50){
+									this.oldvalueX = this.heroPositionX;
+									this.oldvalueY = this.heroPositionY;
 									this.heroPositionX += 5;
 									sideplacementright += 5;
 									this.updatePosition();
@@ -136,6 +142,8 @@ class Hero{
 						else if(controller[0]){
 							if(this.onAir){
 								if(sideplacementleft <= 50){
+									this.oldvalueX = this.heroPositionX;
+									this.oldvalueY = this.heroPositionY;
 									this.heroPositionX -= 5;
 									sideplacementleft += 5;
 									this.updatePosition();
@@ -163,14 +171,16 @@ class Hero{
 				else if(controller[0]){
 					// console.log('also here');
 					this.resetDirection();
-
+					this.oldvalueX = this.heroPositionX;
+					this.oldvalueY = this.heroPositionY;
 					this.heroPositionX -= this.directionX;
 					this.heroPositionY = this.heroPositionY;
 					this.updatePosition();
 				}
 				else if(controller[2]){
 					this.resetDirection();
-			
+					this.oldvalueX = this.heroPositionX;
+					this.oldvalueY = this.heroPositionY;
 					this.heroPositionX += this.directionX;
 					this.heroPositionY = this.heroPositionY;
 					this.updatePosition();
@@ -299,24 +309,61 @@ class Hero{
 				this.checkCollisionRight(xCord, yCord);
 				break;
 
+			case 5:
+				this.checkCollisionLeft(xCord , yCord);
+				this.checkCollisionRight(xCord , yCord);
+				break;
+
 			case 8:
 				this.checkCollisionTop(xCord, yCord);
 				break;
 
+			case 9:
+				this.checkCollisionTop(xCord , yCord);
+				this.checkCollisionLeft(xCord , yCord);
+				break;
+
+			case 10:
+				this.checkCollisionTop(xCord , yCord);
+				this.checkCollisionBottom(xCord , yCord);
+				break;
+
+			case 11: 
+				this.checkCollisionTop(xCord , yCord);
+				this.checkCollisionLeft(xCord , yCord);
+				this.checkCollisionBottom(xCord , yCord);
+				break;
+
 			case 12:
-				console.log('here');
 				this.checkCollisionTop(xCord, yCord);
 				this.checkCollisionRight(xCord, yCord);
 				break;
 
+			case 14:
+				this.checkCollisionTop(xCord , yCord);
+				this.checkCollisionRight(xCord , yCord);
+				this.checkCollisionBottom(xCord , yCord);
+				break; 
+
+			case 15:
+			this.checkCollisionTop(xCord , yCord);
+			this.checkCollisionBottom(xCord , yCord);
+			this.checkCollisionRight(xCord , yCord);
+			this.checkCollisionLeft(xCord , yCord);
+			break;
+
+			// default:
+			// console.log('tile index not found');
+			// break;
 			}
 	} 
 
 	checkCollisionBottom(x , y){
 		//for bottom side wall of the elements
 		// console.log(y);
+		
 		console.log(this.heroPositionY);
-		if(this.heroPositionY <= (y + SPRITE_SIZE)){
+		if(this.heroPositionY <= (y + SPRITE_SIZE) && this.oldvalueY >=(y + SPRITE_SIZE)){
 			console.log('collsion detected');
 			this.directionY = 0;
 			// controller[1] = false;
@@ -346,7 +393,7 @@ class Hero{
 
  	checkCollisionRight(x , y){
  		console.log('right', x + SPRITE_SIZE);
- 		if(this.heroPositionX < (x + SPRITE_SIZE)){
+ 		if(this.heroPositionX < (x + SPRITE_SIZE) && this.oldvalueX >=(x + SPRITE_SIZE)){
  			// console.log('collision-right');
  			if(controller[0]){
  			this.directionX = 0;
@@ -361,7 +408,8 @@ class Hero{
 
  	checkCollisionTop(x,y){
  		// console.log(y);
- 		if(this.heroPositionY + SPRITE_SIZE > y){
+ 		console.log(this.oldvalueX , this.oldvalueY , this.heroPositionX , this.heroPositionY);
+ 		if((this.heroPositionY + SPRITE_SIZE) > y  &&  (this.oldvalueY+SPRITE_SIZE) <= y ){
  			// console.log('collision-top');
  			// console.log('collision');
  			this.heroPositionY = y - SPRITE_SIZE;
@@ -382,7 +430,7 @@ class Hero{
 
   checkCollisionLeft(x,y){
   	// console.log(x*SPRITE_SIZE , this.heroPositionX + SPRITE_SIZE);
-  	if(this.heroPositionX + SPRITE_SIZE > x){
+  	if(this.heroPositionX + SPRITE_SIZE > x && this.oldvalueX + SPRITE_SIZE <= x){
   		console.log('here');
   		this.directionX = 0;
   		this.heroPositionX = x - SPRITE_SIZE;
@@ -397,6 +445,15 @@ class Hero{
  		this.directionX = 5;
  		this.directionY = 5;
  	}
+
+ 	// getoldValue(){
+ 	// 	this.oldvalueX = this.heroPositionX;
+ 	// 	this.oldvalueY = this.heroPositionY;
+ 	// }
+
+ 	// setoldvalue(){
+
+ 	// }
 
  	eventController(){
 			document.addEventListener('keydown', event => {
