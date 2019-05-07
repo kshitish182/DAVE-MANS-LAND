@@ -5,11 +5,13 @@ let controllerLog = [];
 let i =0;
 let count = 0;
 let jumpCount = 0;
+let sideplacementright = 0;
+let sideplacementleft = 0;
 
 const SPRITE_SIZE = 50;
 
 class Hero{
-	constructor(heroPositionX , heroPOsitionY , ctx , gravity){
+	constructor(heroPositionX , heroPOsitionY , ctx ){
 		this.heroPositionX = heroPositionX;
 		this.heroPositionY = heroPositionY;
 		
@@ -18,12 +20,13 @@ class Hero{
 		this.directionY = 5;
 
 		this.ctx = ctx;
-		this.gravity = gravity;
+		this.buttonPress = false;
+		this.gravity = 'off';
 
 		//for counting number of frames to manage speed
 		this.frameCount = 0;
-		this.characterDefaultDisplay = true;
-		this.jump = true;
+		// this.characterDefaultDisplay = true;
+		this.jump = false;
 		this.onAir = false;
 
 		//tracking the direction faced by the character
@@ -31,17 +34,19 @@ class Hero{
 
 		this.mapLayouts = mapLayouts;
 		this.collisionMap = collisionMap;
-		//creating sprite objects
+
+		//creating sprite objects for characters
 		this.heroSpriteRight = new SpriteControl(this.ctx , character , 50 ,50 ,this.heroPositionX , this.heroPositionY , 50 ,50 ,3);
 		this.heroSpriteLeft = new SpriteControl(this.ctx , character , 50 , 50 , this.heroPositionX , this.heroPositionY , 50 , 50 ,3);
 		this.heroSpriteUp = new SpriteControl(this.ctx , character , 50 ,50 , this. heroPositionX, this.heroPositionY,50 ,50 , 9);
 
-
 		//intialising object properties
-		this.heroSpriteLeft.spriteInitialPosx = 250;
+		this.heroSpriteLeft.spriteInitialPosX = 250;
+		this.heroSpriteUp.spriteInitialPosX = 200; 
 	}
 
 	renderHero(buttonPress){
+		console.log(this.charRightFaced);
 		// console.log(controllerLog);
 		//this is the default positioning of the character (right faced)
 		// console.log(controller);
@@ -56,7 +61,20 @@ class Hero{
 		//  	this.heroSpriteUp.drawSpriteUp(this.directionX , this.directionY , buttonPress, this.onAir, this.charRightFaced);
 		//  	this.characterDefaultDisplay = false;
 		//  }
-		this.heroSpriteRight.drawSpriteRight(this.directionX , this.directionY , buttonPress , this.onAir , this.charRightFaced);
+		if(controller[2] && !this.onAir){
+			this.heroSpriteRight.drawSpriteRight(this.directionX , this.directionY , this.buttonPress , this.onAir);
+		}else if (controller[0] && !this.onAir){
+			this.heroSpriteLeft.drawSpriteLeft(this.directionX , this.directionY , this.buttonPress , this.onAir);
+		}else if(controller[1] || this.onAir){
+			this.heroSpriteUp.drawSpriteUp(this.directionX , this.directionY , this.buttonPress , this.charRightFaced);
+		}
+		else if(!controller[0] && !controller[2] && !controller[1]){
+			if(this.charRightFaced){
+				this.heroSpriteRight.drawSpriteRight(this.directionX , this.directionY , this.buttonPress , this.onAir);
+			}else{
+				this.heroSpriteLeft.drawSpriteLeft(this.directionX , this.directionY , this.buttonPress , this.onAir )
+			}
+		}
 		// if(controller[2]){
 		// 	this.characterDefaultDisplay = true;
 		// }		
@@ -66,7 +84,7 @@ class Hero{
 			this.renderHero(buttonPress);
 			this.frameCount++
 			// console.log(controller);
-			if(this.frameCount >= 2){
+			// if(this.frameCount >= 1){
 				// if(controller[2] && controller[1]){
 
 				// 	//reseting direction of the character
@@ -83,6 +101,7 @@ class Hero{
 				// 	this.updatePosition();
 				// }
 				// else 
+				
 				if(controller[1]){
 					this.resetDirection();
 					// console.log('here');
@@ -90,7 +109,42 @@ class Hero{
 					// if(count < 4){
 						// console.log(jumpCount);
 					// if(jumpCount <= 200){
-						this.heroPositionY -=this.directionY;
+						// console.log(this.heroPositionY);
+						if(jumpCount <= 150){
+							this.onAir = true;
+							// this.jump = true;
+							this.heroPositionY -= 5;
+							this.heroPositionX = this.heroPositionX;
+							jumpCount += 5;
+							this.updatePosition();
+						}
+						if(jumpCount > 100){
+							this.gravity = 'on';
+						}
+						if(controller[2]){
+							if(this.onAir){
+								if(sideplacementright <= 50){
+									this.heroPositionX += 5;
+									sideplacementright += 5;
+									this.updatePosition();
+								}
+								if(sideplacementright > 40){
+									this.gravity = 'on';
+								}
+							}
+						}
+						else if(controller[0]){
+							if(this.onAir){
+								if(sideplacementleft <= 50){
+									this.heroPositionX -= 5;
+									sideplacementleft += 5;
+									this.updatePosition();
+								}
+								if(sideplacementleft > 40){
+									this.gravity = 'on';
+								}
+							}
+						}
 						// jumpCount+=this.directionY;
 						// this.updatePosition(); 
 						// this.jump = true;
@@ -104,7 +158,7 @@ class Hero{
 					// if(count === 4){
 					// 	controller[0] = false;
 					// }
-					this.updatePosition();
+					// this.updatePosition();
 				}
 				else if(controller[0]){
 					// console.log('also here');
@@ -135,8 +189,9 @@ class Hero{
 				// 		this.updatePosition();
 				// 	}
 				// }
-			}
-			// this.initGravity();	
+				this.frameCount = 0;
+			// }
+			this.initGravity();	
 	}
 
 	initGravity(){
@@ -149,19 +204,52 @@ class Hero{
 	}
 
 	updatePosition(){
-		
+		// console.log(parseInt(this.heroPositionY));
 		this.heroSpriteRight.spritePlotX = this.heroPositionX;
 		this.heroSpriteRight.spritePlotY = this.heroPositionY;
 		this.heroSpriteLeft.spritePlotX = this.heroPositionX;
 		this.heroSpriteLeft.spritePlotY = this.heroPositionY;
+		this.heroSpriteUp.spritePlotX = this.heroPositionX;
+		this.heroSpriteUp.spritePlotY = this. heroPositionY;
 	}
 
-	scanElements(mapLevel1){
+	getElementsPosition(mapLevel1){
+		//getting character position 
+		
+		//for its topleft corner((x,y) co-ordinates of its topleft corner)
+		
+		let topPos = Math.floor(this.heroPositionY/SPRITE_SIZE);
+		let  leftPos= Math.floor(this.heroPositionX/SPRITE_SIZE);
 
-		let xCord = Math.floor(this.heroPositionX/SPRITE_SIZE);
-		let yCord = Math.floor(this.heroPositionY/SPRITE_SIZE);
+		//the calculated co-ordinates are then converted to the index for the collision map array
+		let collisionIndexValue = this.collisionMap.level1[((mapLevel1.tileWidth*topPos) + leftPos)]; 
 
-		let collisionIndexValue = this.collisionMap.level1[((mapLevel1.tileWidth*yCord) + xCord)] 
+		//collision checked for the topleft position of the game elements
+		this.checkCollision(leftPos*SPRITE_SIZE , topPos*SPRITE_SIZE , collisionIndexValue);
+
+
+		//now for topright position co-ordinates
+		topPos = Math.floor(this.heroPositionY/SPRITE_SIZE) // re-defining topPos for new interation of collision check
+		let rightPos = Math.floor((this.heroPositionX + SPRITE_SIZE) / SPRITE_SIZE);
+		collisionIndexValue = this.collisionMap.level1[((mapLevel1.tileWidth*topPos) + rightPos)];
+		this.checkCollision(rightPos*SPRITE_SIZE , topPos*SPRITE_SIZE , collisionIndexValue);
+
+
+		//for bottomleft position co-ordinates
+		let bottomPos = Math.floor((this.heroPositionY + SPRITE_SIZE) / SPRITE_SIZE);
+		leftPos = Math.floor(this.heroPositionX / SPRITE_SIZE);
+		collisionIndexValue = this.collisionMap.level1[((mapLevel1.tileWidth*bottomPos) + leftPos)];
+		this.checkCollision(leftPos*SPRITE_SIZE , bottomPos*SPRITE_SIZE , collisionIndexValue);
+
+		//for bottomright position co-ordinates
+		bottomPos = Math.floor((this.heroPositionY + SPRITE_SIZE) / SPRITE_SIZE);
+		rightPos = Math.floor((this.heroPositionX + SPRITE_SIZE) / SPRITE_SIZE);
+		collisionIndexValue = this.collisionMap.level1[((mapLevel1.tileWidth*bottomPos) + rightPos)];
+		this.checkCollision(rightPos*SPRITE_SIZE , bottomPos*SPRITE_SIZE , collisionIndexValue);
+
+		// console.log(topPos , leftPos , bottomPos , rightPos);
+		// console.log(this.heroPositionX , this.heroPositionY);
+		//scanning game elements for
 		// console.log(collisionIndexValue);
 		// for(let i = 0 ; i < mapLevel1.tileHeight ; i++){
 		// 	for(let j = 0 ; j < mapLevel1.tileWidth ; j++){
@@ -195,15 +283,43 @@ class Hero{
 		// }
 	}
 
-	//checking for collision after scanning the elements
+	//checking for collision after obtaining the elements
+	checkCollision(xCord , yCord , collisionIndex){   // x and y co-ordinates of four corners of the character
+		// console.log(collisionIndex);
+		switch(collisionIndex){
+			case 1:
+				this.checkCollisionLeft(xCord, yCord);
+				break;
+
+			case 2:
+				this.checkCollisionBottom(xCord, yCord); //x-cordinates , y-cordinates
+				break;
+
+			case 4:
+				this.checkCollisionRight(xCord, yCord);
+				break;
+
+			case 8:
+				this.checkCollisionTop(xCord, yCord);
+				break;
+
+			case 12:
+				console.log('here');
+				this.checkCollisionTop(xCord, yCord);
+				this.checkCollisionRight(xCord, yCord);
+				break;
+
+			}
+	} 
 
 	checkCollisionBottom(x , y){
 		//for bottom side wall of the elements
-
-		if(this.heroPositionY < (y + SPRITE_SIZE)){
-			// console.log('collsion detected');
+		// console.log(y);
+		console.log(this.heroPositionY);
+		if(this.heroPositionY <= (y + SPRITE_SIZE)){
+			console.log('collsion detected');
 			this.directionY = 0;
-			controller[1] = false;
+			// controller[1] = false;
 			this.heroPositionY = y + SPRITE_SIZE;
 		 }
 		 // else{
@@ -229,11 +345,12 @@ class Hero{
 	 }
 
  	checkCollisionRight(x , y){
- 		if(this.heroPositionX <= (x*SPRITE_SIZE)){
+ 		console.log('right', x + SPRITE_SIZE);
+ 		if(this.heroPositionX < (x + SPRITE_SIZE)){
  			// console.log('collision-right');
  			if(controller[0]){
  			this.directionX = 0;
- 			this.heroPositionX = x*SPRITE_SIZE;
+ 			this.heroPositionX = x + SPRITE_SIZE;
  			return true;
  			}else{
  				this.directionX = 5;
@@ -243,15 +360,19 @@ class Hero{
  	}
 
  	checkCollisionTop(x,y){
- 		if(this.heroPositionY + SPRITE_SIZE >= y*SPRITE_SIZE){
+ 		// console.log(y);
+ 		if(this.heroPositionY + SPRITE_SIZE > y){
  			// console.log('collision-top');
  			// console.log('collision');
- 			this.heroPositionY = y*SPRITE_SIZE - SPRITE_SIZE;
+ 			this.heroPositionY = y - SPRITE_SIZE;
  			this.directionY = 0;
  			this.jump = false;
  			this.onAir = false;
  			jumpCount = 0;
+ 			sideplacementleft = 0;
+ 			sideplacementright = 0;
  			controller[1] = false;
+ 			// controller[1] = false;
  			// if(controller[1]){
  			// 	this.directionY = 5;
  			// }
@@ -261,10 +382,10 @@ class Hero{
 
   checkCollisionLeft(x,y){
   	// console.log(x*SPRITE_SIZE , this.heroPositionX + SPRITE_SIZE);
-  	if(this.heroPositionX + SPRITE_SIZE >= x*SPRITE_SIZE){
+  	if(this.heroPositionX + SPRITE_SIZE > x){
   		console.log('here');
   		this.directionX = 0;
-  		this.heroPositionX = x*SPRITE_SIZE-SPRITE_SIZE;
+  		this.heroPositionX = x - SPRITE_SIZE;
   		return true;
   	}else{
   		this.directionX = 5;
@@ -282,7 +403,7 @@ class Hero{
 					this.gravity = 'off';
 						if(event.keyCode === 39){    //right-arrow
 							controller[2] = true;
-							// this.buttonPress = true;
+							this.buttonPress = true;
 							this.charRightFaced = true;
 						}
 						if(event.keyCode === 37){   //left-arrow
@@ -293,7 +414,7 @@ class Hero{
 						if(event.keyCode === 38 ){   //up-arrow
 								// console.log(event);
 								controller[1] = true;
-								// this.buttonPress = true;
+								this.buttonPress = true;
 						}
 						if(!this.buttonPress){
 							this.gravity = 'on';
@@ -306,7 +427,6 @@ class Hero{
 				// controller = [false , false , false];
 				controller[0] = false; //left-arrow
 				controller[2] = false; //right-arrow
-				controller[1] = false;
 		});
 	}
 }

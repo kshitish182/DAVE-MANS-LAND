@@ -9,6 +9,9 @@ class SpriteControl{
 		this.spriteInitialPosX = 0;  
 		this.spriteInitialPosY = 0;
 
+		// this.spriteLeftInitialPosX = 250;
+		// this.spriteRightInitialPosX = 0;
+
 		//sprite size to be  clipped
 		this.spriteWidth = spriteWidth;
 		this.spriteHeight = spriteHeight;
@@ -42,15 +45,23 @@ class SpriteControl{
 		}
 	}
 
-	drawSpriteUp(directionX , directionY , buttonPress , onAir , charRightFaced){
+
+
+
+
+
+
+
+
+	drawSpriteUp(directionX , directionY , buttonPress , jump , charRightFaced){
 
 		// this.ctx.drawImage(this.spriteRefrence , this.spriteInitialPosX , this.spriteInitialPosY , this.spriteWidth , this.spriteHeight , this.spritePlotX , this.spritePlotY , this.elmntWidth , this.elmntHeight);
 		
 		this.ctx.drawImage(this.spriteRefrence , this.spriteInitialPosX , this.spriteInitialPosY , this.spriteWidth , this.spriteHeight , this.spritePlotX , this.spritePlotY , this.elmntWidth , this.elmntHeight);
 		this.frameCount++;
 		//holding the movement of character for 3 frames (to manage speed)
-		if(this.frameCount > 3){
-
+		if(this.frameCount > 2){
+			if(buttonPress){
 			//cheacking if the control key is pressed
 			// if(buttonPress){    
 			// 		this.spritePlotX += directionX;
@@ -84,9 +95,16 @@ class SpriteControl{
 					// }else if(controller[1]){
 					// 	this.drawSpriteUp(directionX , directionY ,charRightFaced , onAir);
 					// }
-
-					this.spriteInitialPosX = 200;
-					this.spritePlotY += directionY;
+					
+					if(charRightFaced){
+						this.spriteInitialPosX = 200;	
+					}else{
+						this.spriteInitialPosX = 400;
+					}
+					
+						this.spritePlotY -= directionY;
+					// this.spritePlotX = this.spritePlotX;
+				}
 
 					//character moving left 
 				// 	if(controller[0]){
@@ -104,6 +122,20 @@ class SpriteControl{
 		}
 	}
 
+	// drawCharMoveSprite(directionX , directionY , buttonPress , onAir , charRightFaced){
+	// 	if(controller[0]){
+	// 		this.drawSpriteLeft(directionX , buttonPress , onAir);
+	// 	}else if(controller[2]){
+	// 		this.drawSpriteRight(directionX , buttonPress , onAir);
+	// 	}else if(!controller[0] && !controller[1] && !controller[2]){
+	// 		if(charRightFaced){
+	// 			this.drawSpriteRight(directionX , buttonPress , onAir);
+	// 		}else{
+	// 			this.drawSpriteLeft(directionX , buttonPress , onAir);
+	// 		}
+	// 	}
+	// }
+
 	drawSpriteRight(directionX , directionY, buttonPress , onAir){
 		this.ctx.drawImage(this.spriteRefrence , this.spriteInitialPosX , this.spriteInitialPosY , this.spriteWidth , this.spriteHeight , this.spritePlotX , this.spritePlotY , this.elmntWidth , this.elmntHeight);
 		this.frameCount++;
@@ -111,13 +143,14 @@ class SpriteControl{
 			if(buttonPress){
 				this.spriteInitialPosX += 50;
 				this.spritePlotX += directionX;
-				this.spritePlotY += directionY;
+				this.spritePlotY -= directionY;
 				this.countSpriteImage++;
 				if(this.countSpriteImage >= this.spriteNumber ){ 
 			 		this.spriteInitialPosX = 50;
 			 		this.countSpriteImage = 1;
 				}
 			}
+			this.frameCount = 0;
 		}
 	}
 
@@ -125,13 +158,17 @@ class SpriteControl{
 		this.ctx.drawImage(this.spriteRefrence , this.spriteInitialPosX , this.spriteInitialPosY , this.spriteWidth , this.spriteHeight , this.spritePlotX , this.spritePlotY , this.elmntWidth , this.elmntHeight);
 		this.frameCount++;
 		if(this.frameCount > 3){
-			this.spriteInitialPosX +=50;
-			this.spritePlotX -= 50;
-			this.countSpriteImage++;
-			if(this.countSpriteImage >= this.spriteNumber){
-				this.spriteInitialPosX = 250;
-				this.countSpriteImage = 0;
+			if(buttonPress){
+				this.spriteInitialPosX +=50;
+				this.spritePlotX -= directionX;
+				this.spritePlotY -= directionY;
+				this.countSpriteImage++;
+				if(this.countSpriteImage >= this.spriteNumber){
+					this.spriteInitialPosX = 250;
+					this.countSpriteImage = 0;
+				}
 			}
+			this.frameCount = 0;
 		}
 	}
 

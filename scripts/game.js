@@ -33,17 +33,16 @@ class Game{
 		this.canvas.style.border = '1px solid black';	
 
 		this.tileMap = tileMap;
-		this.buttonPress = false;
+		
 		this.frameCount =0;
-		this.gravity = 'off';
-		this.frameCount = 0;
+		
 
 		//tracking the number of times the control button is pressed
 		this.eventCounter = 0; 
 
 		//creating objects
 		this.mapLevel1 = new Map(this.tileMap.level1 , this.ctx);
-		this.hero = new Hero(heroPositionX , heroPositionY , this.ctx , this.gravity);
+		this.hero = new Hero(heroPositionX , heroPositionY , this.ctx );
 
 	}
 
@@ -54,7 +53,7 @@ class Game{
 animate(){
 	this.mapLevel1.drawMap();
 	this.hero.moveHero(this.buttonPress);
-	this.hero.scanElements(this.mapLevel1) // scanning the tile map to check for collision
+	this.hero.getElementsPosition(this.mapLevel1) // scanning the tile map to check for collision
 	// this.eventController();
 	// console.log(controller);
 	window.requestAnimationFrame(() => this.animate());
