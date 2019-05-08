@@ -12,9 +12,11 @@ let buffer = 10;
 const SPRITE_SIZE = 50;
 
 class Hero{
-	constructor(heroPositionX , heroPOsitionY , ctx ){
+	constructor(heroPositionX , heroPOsitionY , ctx, doorOpen){
 		this.heroPositionX = heroPositionX;
 		this.heroPositionY = heroPositionY;
+		this.heroInitialPosX = heroPositionX;
+		this.heroInitialPosY = heroPositionY;
 		this.oldvalueX = heroPositionX;
 		this.oldvalueY = heroPositionY;
 		
@@ -26,7 +28,7 @@ class Hero{
 		this.buttonPress = false;
 		this.gravity = 'off';
 
-		//for counting number of frames to manage speed
+		//for counting number of frames to hold certain fucntion for certain number of frames
 		this.frameCount = 0;
 		// this.characterDefaultDisplay = true;
 		this.jump = false;
@@ -42,6 +44,7 @@ class Hero{
 		this.heroSpriteRight = new SpriteControl(this.ctx , character , 50 ,50 ,this.heroPositionX , this.heroPositionY , 50 ,50 ,3);
 		this.heroSpriteLeft = new SpriteControl(this.ctx , character , 50 , 50 , this.heroPositionX , this.heroPositionY , 50 , 50 ,3);
 		this.heroSpriteUp = new SpriteControl(this.ctx , character , 50 ,50 , this. heroPositionX, this.heroPositionY,50 ,50 , 9);
+		this.heroDeath = new SpriteControl(this.ctx, charDeath , 48 , 50 , this.heroPositionX , this.heroPositionY , 50 ,50 , 1);
 
 		//intialising object properties
 		this.heroSpriteLeft.spriteInitialPosX = 250;
@@ -63,21 +66,24 @@ class Hero{
 		//  	this.heroSpriteUp.drawSpriteUp(this.directionX , this.directionY , buttonPress, this.onAir, this.charRightFaced);
 		//  	this.characterDefaultDisplay = false;
 		//  }
-		if(controller[2] && !this.onAir){
-			this.heroSpriteRight.drawSpriteRight(this.directionX , this.directionY , this.buttonPress , this.onAir);
-		}else if (controller[0] && !this.onAir){
-			this.heroSpriteLeft.drawSpriteLeft(this.directionX , this.directionY , this.buttonPress , this.onAir);
-		}else if(controller[1] || this.onAir){
-			// console.log(this.charRightFaced);
-			this.heroSpriteUp.drawSpriteUp(this.directionX , this.directionY , this.buttonPress , this.charRightFaced);
-		}
-		else if(!controller[0] && !controller[2] && !controller[1]){
-			if(this.charRightFaced){
+		if(!gameOver){
+			if(controller[2] && !this.onAir){
 				this.heroSpriteRight.drawSpriteRight(this.directionX , this.directionY , this.buttonPress , this.onAir);
-			}else{
-				this.heroSpriteLeft.drawSpriteLeft(this.directionX , this.directionY , this.buttonPress , this.onAir )
+			}else if (controller[0] && !this.onAir){
+				this.heroSpriteLeft.drawSpriteLeft(this.directionX , this.directionY , this.buttonPress , this.onAir);
+			}else if(controller[1] || this.onAir){
+				// console.log(this.charRightFaced);
+				this.heroSpriteUp.drawSpriteUp(this.directionX , this.directionY , this.buttonPress , this.charRightFaced);
+			}
+			else if(!controller[0] && !controller[2] && !controller[1]){
+				if(this.charRightFaced){
+					this.heroSpriteRight.drawSpriteRight(this.directionX , this.directionY , this.buttonPress , this.onAir);
+				}else{
+					this.heroSpriteLeft.drawSpriteLeft(this.directionX , this.directionY , this.buttonPress , this.onAir )
+				}
 			}
 		}
+		this.checkGameOver();
 		// if(controller[2]){
 		// 	this.characterDefaultDisplay = true;
 		// }		
@@ -85,7 +91,7 @@ class Hero{
 
 	moveHero(buttonPress){
 			this.renderHero(buttonPress);
-			this.frameCount++
+			// this.frameCount++
 			// console.log(controller);
 			// if(this.frameCount >= 1){
 				// if(controller[2] && controller[1]){
@@ -200,7 +206,6 @@ class Hero{
 				// 		this.updatePosition();
 				// 	}
 				// }
-				this.frameCount = 0;
 			// }
 			this.initGravity();	
 	}
@@ -360,7 +365,12 @@ class Hero{
 				break;
 
 			case 16:
-				this.checkCollisionCon(xCord , yCord , mapLevel1);
+				this.checkConsumableCollision(xCord , yCord , mapLevel1);
+				break;
+
+			case 17:
+				// this.handleDoorCollision();
+				console.log('door')
 				break;
 
 			// default:
@@ -373,7 +383,7 @@ class Hero{
 		//for bottom side wall of the elements
 		// console.log(y);
 		if(this.heroPositionY <= (y + SPRITE_SIZE) && this.oldvalueY >=(y + SPRITE_SIZE)){
-			console.log('collision detected');
+			console.log(this.heroPositionX , this.heroPositionY);
 			this.directionY = 0;
 			// controller[1] = false;
 			this.heroPositionY = y + SPRITE_SIZE;
@@ -439,7 +449,6 @@ class Hero{
   checkCollisionLeft(x,y){
   	// console.log(x*SPRITE_SIZE , this.heroPositionX + SPRITE_SIZE);
   	if(this.heroPositionX + SPRITE_SIZE > x && this.oldvalueX + SPRITE_SIZE <= x){
-  		console.log('here');
   		this.directionX = 0;
   		this.heroPositionX = x - SPRITE_SIZE;
   		return true;
@@ -449,17 +458,62 @@ class Hero{
   	}
   }
 
-  checkCollisionCon(x , y , mapLevel1){
+  checkConsumableCollision(x , y , mapLevel1){
   	if(this.heroPositionX + SPRITE_SIZE > x  || this.heroPositionX + SPRITE_SIZE > y || this.heroPositionX < (x + SPRITE_SIZE)){
   		let j = x/SPRITE_SIZE;
   		let i = y/SPRITE_SIZE;
-  		this.mapLayouts.level1[(i*mapLevel1.tileWidth) + j] = 0;
+  		let index = ((i*mapLevel1.tileWidth) + j);
+  		switch(this.mapLayouts.level1[index]){
+  			case 3:
+  				this.mapLayouts.level1[index] = 0;
+  				console.log('points');
+  				break;
+
+  			case 4:
+  				this.mapLayouts.level1[index] = 0;
+  				console.log('double-points');
+  				break;
+
+  			case 5:
+  				this.mapLayouts.level1[index] = 0;
+  				doorOpen = true;
+  				console.log('door open');
+  				break;
+  		}
+  		// let value = this.mapLayouts.level1[(i*mapLevel1.tileWidth) + j];
+  		// console.log(value);
+  		// //assgining roles for different consumables
+  		// this.assignCollisionRoles(value);
   	}
   }
+
+  // assignCollisionRoles(value){
+  // 	switch(value){
+  // 		case 3:
+  // 			this.mapLayouts.level1[]
+  // 	}
+  // }
 
  	resetDirection(){
  		this.directionX = 5;
  		this.directionY = 5;
+ 	}
+
+ 	checkGameOver(){
+ 		if(gameOver){
+ 			this.frameCount++;
+ 			if(this.frameCount < 200){
+				this.heroDeath.spritePlotX = this.heroPositionX;
+				this.heroDeath.spritePlotY = this.heroPositionY;
+				this.heroDeath.drawSpriteStatic();
+			}else if(this.frameCount >= 200){
+				gameOver = false;
+				this.frameCount = 0;
+				console.log(this.heroInitialPosX , this.heroInitialPosY);
+				this.heroPositionX = this.heroInitialPosX;
+				this.heroPositionY = this.heroInitialPosY;
+			}
+		}
  	}
 
  	// getoldValue(){
@@ -475,24 +529,26 @@ class Hero{
  	eventController(){
 			document.addEventListener('keydown', event => {
 					this.gravity = 'off';
-						if(event.keyCode === 39){    //right-arrow
-							controller[2] = true;
-							this.buttonPress = true;
-							this.charRightFaced = true;
-						}
-						if(event.keyCode === 37){   //left-arrow
-							controller[0] = true;
-							this.buttonPress = true;
-							this.charRightFaced = false;
-						}
-						if(event.keyCode === 38 ){   //up-arrow
+					if(!gameOver){
+							if(event.keyCode === 39){    //right-arrow
+								controller[2] = true;
+								this.buttonPress = true;
+								this.charRightFaced = true;
+							}
+							if(event.keyCode === 37){   //left-arrow
+								controller[0] = true;
+								this.buttonPress = true;
+								this.charRightFaced = false;
+							}
+							if(event.keyCode === 38 ){   //up-arrow
 								// console.log(event);
 								controller[1] = true;
 								this.buttonPress = true;
-						}
-						if(!this.buttonPress){
-							this.gravity = 'on';
-						}
+							}
+							if(!this.buttonPress){
+								this.gravity = 'on';
+							}
+					}
 			});
 
 		document.addEventListener('keyup', event =>{

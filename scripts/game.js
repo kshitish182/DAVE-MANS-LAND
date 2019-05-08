@@ -42,8 +42,8 @@ class Game{
 
 		//creating objects
 		this.mapLevel1 = new Map(this.tileMap.level1 , this.ctx);
-		this.hero = new Hero(heroPositionX , heroPositionY , this.ctx );
-		this.trollELmObj  = new TrollElements(this.ctx, this.hero);
+		this.hero = new Hero(heroPositionX , heroPositionY , this.ctx);
+		this.trollELmObj  = new TrollElements(this.ctx , this.hero);
 
 	}
 
@@ -52,7 +52,7 @@ class Game{
 	// }
 
 animate(){
-
+	console.log(gameOver);
 	this.mapLevel1.drawMap();
 	this.trollELmObj.renderTrollElements();
 	this.hero.moveHero(this.buttonPress);

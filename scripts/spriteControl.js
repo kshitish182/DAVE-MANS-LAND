@@ -55,7 +55,6 @@ class SpriteControl{
 		//holding the movement of character for 3 frames (to manage speed)
 		if(this.frameCount > 2){
 			if(buttonPress){
-					console.log(charRightFaced);
 					if(charRightFaced){
 						this.spriteInitialPosX = 200;	
 					}else{

@@ -33,3 +33,6 @@
 	let door = new Image();
 	door.src = this.gameElements.door.src;
 	door.onLoad = () => this.elementCounter++;
+
+	let charDeath = new Image();
+	charDeath.src = this.

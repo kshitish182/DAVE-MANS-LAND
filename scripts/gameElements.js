@@ -51,6 +51,10 @@ const gameElements = {
 
 	character : {
 		src: 'assets/images/character.png'
+	},
+
+	charDeath : {
+		src : 'assets/images/char-death.png'
 	}
 }
 
@@ -84,3 +88,6 @@ door.src = gameElements.door.src;
 
 let character = new Image();
 character.src = gameElements.character.src;
+
+let charDeath = new Image();
+charDeath.src = gameElements.charDeath.src;
