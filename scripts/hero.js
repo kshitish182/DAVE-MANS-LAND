@@ -453,7 +453,6 @@ class Hero{
   	if(this.heroPositionX + SPRITE_SIZE > x  || this.heroPositionX + SPRITE_SIZE > y || this.heroPositionX < (x + SPRITE_SIZE)){
   		let j = x/SPRITE_SIZE;
   		let i = y/SPRITE_SIZE;
-  		console.log(i*mapLevel1.tileWidth + j);
   		this.mapLayouts.level1[(i*mapLevel1.tileWidth) + j] = 0;
   	}
   }
@@ -471,6 +470,7 @@ class Hero{
  	// setoldvalue(){
 
  	// }
+
 
  	eventController(){
 			document.addEventListener('keydown', event => {

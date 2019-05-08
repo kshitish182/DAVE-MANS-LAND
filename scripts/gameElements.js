@@ -1,5 +1,6 @@
 
 let imageLoaded = false;
+let gameOver = false;
 
 //gameElement information
 

@@ -21,9 +21,18 @@ class TrollElements{
 		let laserSrcPosY1 = 110;
 		let laserSrcPosX2 = 525; // down-facing
 		let laserSrcPosY2 = 50;
-
 		let laserObj = new LaserSet(this.ctx , triggerPosX , triggerPosY , laserSrcPosX1 , laserSrcPosY1 , laserSrcPosX2 , laserSrcPosY2);
+
 		laserObj.drawLaserSet();
+		this.checkTrollElmCollision(laserObj);
+	}
+
+	checkTrollElmCollision(laserObj){
+		console.log(laserObj.laserSrcPosX2);
+		console.log(this.hero.heroPositionX);
+		if(this.hero.heroPositionX + SPRITE_SIZE>= (laserObj.laserSrcPosX2) || this.hero.heroPositionY <= (laserObj.laserSrcPosY1 + 2.5)){
+			gameOver = 'true';
+		}
 	}
 
 
