@@ -7,6 +7,7 @@ let count = 0;
 let jumpCount = 0;
 let sideplacementright = 0;
 let sideplacementleft = 0;
+let buffer = 10;
 
 const SPRITE_SIZE = 50;
 
@@ -18,8 +19,8 @@ class Hero{
 		this.oldvalueY = heroPositionY;
 		
 		//distance in x and y direction moved by the character in a single event
-		this.directionX = 5;
-		this.directionY = 5;
+		this.directionX = 3;
+		this.directionY = 3;
 
 		this.ctx = ctx;
 		this.buttonPress = false;
@@ -400,11 +401,11 @@ class Hero{
 	 }
 
  	checkCollisionRight(x , y){
- 		if(this.heroPositionX < (x + SPRITE_SIZE) && this.oldvalueX >=(x + SPRITE_SIZE)){
+ 		if(this.heroPositionX  < (x + SPRITE_SIZE + 5) && this.oldvalueX >=(x + SPRITE_SIZE)){
  			// console.log('collision-right');
  			if(controller[0]){
  			this.directionX = 0;
- 			this.heroPositionX = x + SPRITE_SIZE;
+ 			this.heroPositionX = x + SPRITE_SIZE + 5;
  			return true;
  			}else{
  				this.directionX = 5;
