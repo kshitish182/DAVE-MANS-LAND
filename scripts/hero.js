@@ -369,7 +369,7 @@ class Hero{
 				break;
 
 			case 17:
-				// this.handleDoorCollision();
+				this.handleDoorCollision();
 				console.log('door')
 				break;
 
@@ -527,8 +527,10 @@ class Hero{
 
  	// }
 
+
  	checkDoorCondition(gameLevel){
  		if(doorOpen){
+ 			console.log('here');
  			gameLevel++;
  		}
  	}
