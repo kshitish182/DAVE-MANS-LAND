@@ -55,7 +55,7 @@ class Map{
 	// 	this.drawMap(ctx);
 	// }
 
-	drawMap(ctx){
+	drawMap(){
 		// if(this.loadComplete === false){
 		// this.loadLevel1();
 		// }

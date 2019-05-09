@@ -53,8 +53,8 @@ class Game{
 			break;
 
 			case 2:
-			this.mapLevel = new Map(this.tileMap.level2 , this.ctx);
-			this.mapLevel.tileWidth = 60;
+			this.mapCurrentLevel.mapLevel = this.tileMap.level2;
+			this.mapCurrentLevel.tileWidth = 60;
 		}
 	}
 

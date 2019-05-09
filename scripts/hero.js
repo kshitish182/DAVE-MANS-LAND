@@ -239,7 +239,7 @@ class Hero{
 				this.currentCollisionLevel = this.collisionMap.level1;
 				break;
 			case 2:
-				this.currentCollisionLevel = this.collisionMap.leve2;
+				this.currentCollisionLevel = this.collisionMap.level2;
 				break;
 		}
 	}
