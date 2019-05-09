@@ -2,12 +2,12 @@
 // let spriteInitialPosY = 0;
 
 class Map{
-	constructor(mapLevel,ctx){
+	constructor(mapLevel, tileWidth , tileHeight , ctx){
 		this.mapLevel = mapLevel;
 		this.gameElements = gameElements;
 		this.elementSize = 50; //width and height is same
-		this.tileWidth = 20;
-		this.tileHeight = 10;
+		this.tileWidth = tileWidth;
+		this.tileHeight = tileHeight;
 		this.elementCounter = 0;
 		this.loadComplete = false;
 		this.ctx = ctx;
@@ -106,7 +106,11 @@ class Map{
 					case 7:
 						this.ctx.drawImage(door , j*this.elementSize , i*this.elementSize , this.elementSize , this.elementSize);
 						break;
-					
+
+					case 8:
+					this.ctx.drawImage(ironRod , j*this.elementSize , i*this.elementSize  ,this.elementSize , this.elementSize);
+					break;
+
 					default:
 					console.log('imagecode not found');
 				}

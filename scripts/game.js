@@ -19,7 +19,6 @@ let heroPositionY = 400;
 
 class Game{
 	constructor(canvasWidth, canvasHeight , tileMap){
-		let that = this;
 		this.canvas = document.getElementById('canvas');
 		this.ctx = this.canvas.getContext('2d');
 		this.canvas.width = canvasWidth;
@@ -35,16 +34,29 @@ class Game{
 		this.tileMap = tileMap;
 		
 		this.frameCount =0;
+		this.gameLevel = 1;
 		
 
 		//tracking the number of times the control button is pressed
 		this.eventCounter = 0; 
 
 		//creating objects
-		this.mapLevel1 = new Map(this.tileMap.level1 , this.ctx);
+		this.mapLevels = new Map(this.tileMap.level1 , 20, 10 , this.ctx);
 		this.hero = new Hero(heroPositionX , heroPositionY , this.ctx);
 		this.trollELmObj  = new TrollElements(this.ctx , this.hero);
 
+	}
+
+	getMap(){
+		switch(this.gameLevel){
+			case 1:
+			this.mapLevels.mapLevel = this.tileMap.level1;
+			break;
+
+			case 2:
+			this.mapLevel = new Map(this.tileMap.level2 , this.ctx);
+			this.mapLevel.tileWidth = 60;
+		}
 	}
 
 	// levelController(){
@@ -52,11 +64,11 @@ class Game{
 	// }
 
 animate(){
-	console.log(gameOver);
-	this.mapLevel1.drawMap();
+	this.getMap();
+	this.mapLevel.drawMap();
 	this.trollELmObj.renderTrollElements();
 	this.hero.moveHero(this.buttonPress);
-	this.hero.getElementsPosition(this.mapLevel1) // scanning the tile map to check for collision
+	this.hero.getElementsPosition(this.mapLevel) // scanning the tile map to check for collision
 	// this.eventController();
 	// console.log(controller);
 	window.requestAnimationFrame(() => this.animate());

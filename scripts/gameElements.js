@@ -49,6 +49,12 @@ const gameElements = {
 		collision : true
 	},
 
+	ironRod : {
+		index: '8',
+		src: 'assets/images/iron-rod.png',
+		collision : true
+	},
+
 	character : {
 		src: 'assets/images/character.png'
 	},
@@ -85,6 +91,9 @@ entryTunnel.src = gameElements.entryTunnel.src;
 
 let door = new Image();
 door.src = gameElements.door.src;
+
+let ironRod = new Image();
+ironRod.src = gameElements.ironRod.src;
 
 let character = new Image();
 character.src = gameElements.character.src;

@@ -3,6 +3,9 @@ class TrollElements{
 	constructor(ctx , hero){
 		this.ctx = ctx;
 		this.hero = hero;
+
+		this.boobyTrap = false;
+		this.checkValue = true;
 	}
 
 	// drawELementsLevel1(){
@@ -16,7 +19,8 @@ class TrollElements{
 	// }
 
 	renderTrollElements(){
-		if(doorOpen){
+		this.checkTrophyCollection();
+		if(this.boobyTrap){
 			let triggerPosX = 75;
 			let triggerPosY = 300;
 			let laserSrcPosX1 = 50; //left-facing
@@ -30,12 +34,26 @@ class TrollElements{
 		}
 	}
 
+	checkTrophyCollection(){
+		if(doorOpen && this.checkValue){
+			this.boobyTrap = true;
+			this.checkValue = false;
+		}
+	}
+
 	checkTrollElmCollision(laserObj){
-		// console.log(laserObj.laserSrcPosX2);
-		// console.log(this.hero.heroPositionX);
 		if(this.hero.heroPositionX + SPRITE_SIZE>= (laserObj.laserSrcPosX2) || this.hero.heroPositionY <= (laserObj.laserSrcPosY1 + 2.5)){
-			// console.log('troll collision detected');
 			gameOver = 'true';
+		}
+
+		//300 and 50 are calculated position for collision detection at which the button is programmed to function on player collision
+
+		if(this.hero.heroPositionY <= 300  
+												&& 
+			this.hero.heroPositionX <= 50 + SPRITE_SIZE )
+		{
+				this.boobyTrap = false;
+				console.log(this.boobyTrap);	
 		}
 	}
 

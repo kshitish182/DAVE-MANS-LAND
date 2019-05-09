@@ -229,7 +229,7 @@ class Hero{
 		this.heroSpriteUp.spritePlotY = this. heroPositionY;
 	}
 
-	getElementsPosition(mapLevel1){
+	getElementsPosition(mapLevel){
 		//getting character position 
 		
 		//for its topleft corner((x,y) co-ordinates of its topleft corner)
@@ -300,7 +300,7 @@ class Hero{
 	}
 
 	//checking for collision after obtaining the elements
-	checkCollision(xCord , yCord , collisionIndex, mapLevel1){   // x and y co-ordinates of four corners of the character
+	checkCollision(xCord , yCord , collisionIndex, mapLevel){   // x and y co-ordinates of four corners of the character
 		// console.log(collisionIndex);
 		switch(collisionIndex){
 			case 1:
@@ -458,11 +458,11 @@ class Hero{
   	}
   }
 
-  checkConsumableCollision(x , y , mapLevel1){
+  checkConsumableCollision(x , y , mapLevel){
   	if(this.heroPositionX + SPRITE_SIZE > x  || this.heroPositionX + SPRITE_SIZE > y || this.heroPositionX < (x + SPRITE_SIZE)){
   		let j = x/SPRITE_SIZE;
   		let i = y/SPRITE_SIZE;
-  		let index = ((i*mapLevel1.tileWidth) + j);
+  		let index = ((i*mapLevel.tileWidth) + j);
   		switch(this.mapLayouts.level1[index]){
   			case 3:
   				this.mapLayouts.level1[index] = 0;
