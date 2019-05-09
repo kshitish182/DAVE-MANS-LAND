@@ -400,8 +400,8 @@ class Hero{
 	checkCollisionBottom(x , y){
 		//for bottom side wall of the elements
 		// console.log(y);
-		if(this.heroPositionY <= (y + SPRITE_SIZE) && this.oldvalueY >=(y + SPRITE_SIZE)){
-			console.log(this.heroPositionX , this.heroPositionY);
+		if(this.heroPositionY < (y + SPRITE_SIZE) && this.oldvalueY >=(y + SPRITE_SIZE)){
+			// console.log(this.heroPositionX , this.heroPositionY);
 			this.directionY = 0;
 			// controller[1] = false;
 			this.heroPositionY = y + SPRITE_SIZE;
@@ -430,7 +430,7 @@ class Hero{
 
  	checkCollisionRight(x , y){
  		if(this.heroPositionX  < (x + SPRITE_SIZE + 5) && this.oldvalueX >=(x + SPRITE_SIZE)){
- 			// console.log('collision-right');
+ 			// console.log('collision-right', this.heroPositionX , this.oldvalueX);
  			if(controller[0]){
  			this.directionX = 0;
  			this.heroPositionX = x + SPRITE_SIZE + 5;
@@ -482,7 +482,6 @@ class Hero{
   		let i = y/SPRITE_SIZE;
 
   		let index = ((i*mapCurrentLevel.tileWidth) + j);
-  		console.log(mapCurrentLevel.mapLevel[index] , this.mapLayouts.level1[index]);
   		switch(mapCurrentLevel.mapLevel[index]){
   			case 3:
   				mapCurrentLevel.mapLevel[index] = 0;
@@ -502,6 +501,7 @@ class Hero{
 
   			case 9: 
   				mapCurrentLevel.mapLevel[index] = 0;
+  				console.log('gun');
   				break;
   		}
   		// let value = this.mapLayouts.level1[(i*mapLevel1.tileWidth) + j];

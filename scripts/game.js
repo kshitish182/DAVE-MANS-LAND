@@ -33,6 +33,11 @@ class Game{
 		this.canvas.style.border = '1px solid black';	
 
 		this.tileMap = tileMap;
+
+		this.initialViewportShiftX = 0;
+		this.initialViewportShiftY = 0;
+		this.viewportWidth = 1000;
+		this.viewportHeight = 500;
 		
 		this.frameCount =0;
 		
@@ -59,6 +64,9 @@ class Game{
 		}
 	}
 
+	canvasInit(){
+		context.drawImage(this.canvas , this.initialViewportShiftX , this.initialViewportShiftY , this.canvas.width , this.canvas.height , 0, 0, 4000, 500);
+	}
 
 
 	// levelController(){
@@ -66,10 +74,12 @@ class Game{
 	// }
 
 animate(){
-	console.log(gameLevel);
+	// console.log(gameLevel);
+	this.changeViewport();
+	this.canvasInit();
 	this.getMap();
 	this.mapCurrentLevel.drawMap();
-	this.trollELmObj.renderTrollElements();
+	// this.trollELmObj.renderTrollElements();
 	this.hero.moveHero(this.buttonPress);
 	this.hero.getElementsPosition(this.mapCurrentLevel); // scanning the tile map to check for collision
 	this.hero.checkDoorCondition(); // checking whether the door is locked or not
@@ -77,6 +87,26 @@ animate(){
 	// console.log(controller);
 	window.requestAnimationFrame(() => this.animate());
 }
+
+
+changeViewport(){
+	if(gameLevel != 1){
+		// console.log(2*(this.viewportWidth - 50));
+		if( this.hero.heroPositionX >= (this.viewportWidth - 50) && this.hero.heroPositionX <= 2*(this.viewportWidth - 50) ){
+			// console.log('here');
+			this.initialViewportShiftX = this.viewportWidth;
+		}else if(this.hero.heroPositionX > 2*(this.viewportWidth - 50)){
+			console.log('here');
+			this.initialViewportShiftX = 2*this.viewportWidth;
+		}
+		if(this.hero.heroPositionX <= (this.viewportWidth - 50)){
+			this.initialViewportShiftX = 0;
+		}else if(this.hero.heroPositionX < 2*(this.viewportWidth - 50)){
+			this.initialViewportShiftX = this.viewportWidth;
+		}
+	}
+}
+
 
 // hero(){
 // 	this.moveHero();
@@ -155,7 +185,7 @@ animate(){
 	// }
 }
 
-let game = new Game(1000 , 500 , mapLayouts);
+let game = new Game(4000 , 500 , mapLayouts);
 
 game.hero.eventController();
 game.animate();

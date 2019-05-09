@@ -110,5 +110,11 @@ charDeath.src = gameElements.charDeath.src;
 let gun = new Image();
 gun.src = gameElements.gun.src;
 
+let outerCanvas = document.getElementById('outer-canvas');
+let context = outerCanvas.getContext('2d');
 
 
+//styling outer canvas
+outerCanvas.width = 1000;
+outerCanvas.height = 500;
+outerCanvas.style.border = "1px solid black";
