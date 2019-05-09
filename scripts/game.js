@@ -21,6 +21,7 @@ class Game{
 	constructor(canvasWidth, canvasHeight , tileMap){
 		this.canvas = document.getElementById('canvas');
 		this.ctx = this.canvas.getContext('2d');
+
 		this.canvas.width = canvasWidth;
 		this.canvas.height = canvasHeight;
 
@@ -57,6 +58,8 @@ class Game{
 			this.mapCurrentLevel.tileWidth = 60;
 		}
 	}
+
+
 
 	// levelController(){
 	// 	let mapLevel1 = new Map(this.tileMap.level1);

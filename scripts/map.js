@@ -111,6 +111,10 @@ class Map{
 					this.ctx.drawImage(ironRod , j*this.elementSize , i*this.elementSize  ,this.elementSize , this.elementSize);
 					break;
 
+					case 9:
+					this.ctx.drawImage(gun , j*this.elementSize , i*this.elementSize , this.elementSize , this.elementSize);
+					break;
+
 					default:
 					console.log('imagecode not found');
 				}

@@ -483,21 +483,25 @@ class Hero{
 
   		let index = ((i*mapCurrentLevel.tileWidth) + j);
   		console.log(mapCurrentLevel.mapLevel[index] , this.mapLayouts.level1[index]);
-  		switch(this.mapLayouts.level1[index]){
+  		switch(mapCurrentLevel.mapLevel[index]){
   			case 3:
-  				this.mapLayouts.level1[index] = 0;
+  				mapCurrentLevel.mapLevel[index] = 0;
   				console.log('points');
   				break;
 
   			case 4:
-  				this.mapLayouts.level1[index] = 0;
+  				mapCurrentLevel.mapLevel[index] = 0;
   				console.log('double-points');
   				break;
 
   			case 5:
-  				this.mapLayouts.level1[index] = 0;
+  				mapCurrentLevel.mapLevel[index] = 0;
   				doorOpen = true;
   				console.log('door open');
+  				break;
+
+  			case 9: 
+  				mapCurrentLevel.mapLevel[index] = 0;
   				break;
   		}
   		// let value = this.mapLayouts.level1[(i*mapLevel1.tileWidth) + j];

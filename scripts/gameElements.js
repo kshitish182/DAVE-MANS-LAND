@@ -56,6 +56,11 @@ const gameElements = {
 		collision : true
 	},
 
+	gun : {
+		index : '9',
+		src : 'assets/images/gun.png',
+	},
+
 	character : {
 		src: 'assets/images/character.png'
 	},
@@ -101,3 +106,9 @@ character.src = gameElements.character.src;
 
 let charDeath = new Image();
 charDeath.src = gameElements.charDeath.src;
+
+let gun = new Image();
+gun.src = gameElements.gun.src;
+
+
+
