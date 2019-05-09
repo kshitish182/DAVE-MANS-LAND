@@ -229,7 +229,7 @@ class Hero{
 		this.heroSpriteUp.spritePlotY = this. heroPositionY;
 	}
 
-	getElementsPosition(mapLevel){
+	getElementsPosition(mapCurrentLevel){
 		//getting character position 
 		
 		//for its topleft corner((x,y) co-ordinates of its topleft corner)
@@ -238,30 +238,30 @@ class Hero{
 		let  leftPos= Math.floor(this.heroPositionX/SPRITE_SIZE);
 
 		//the calculated co-ordinates are then converted to the index for the collision map array
-		let collisionIndexValue = this.collisionMap.level1[((mapLevel1.tileWidth*topPos) + leftPos)]; 
+		let collisionIndexValue = this.collisionMap.level1[((mapCurrentLevel.tileWidth*topPos) + leftPos)]; 
 
 		//collision checked for the topleft position of the game elements
-		this.checkCollision(leftPos*SPRITE_SIZE , topPos*SPRITE_SIZE , collisionIndexValue , mapLevel1);
+		this.checkCollision(leftPos*SPRITE_SIZE , topPos*SPRITE_SIZE , collisionIndexValue , mapCurrentLevel);
 
 
 		//now for topright position co-ordinates
 		topPos = Math.floor(this.heroPositionY/SPRITE_SIZE) // re-defining topPos for new interation of collision check
 		let rightPos = Math.floor((this.heroPositionX + SPRITE_SIZE) / SPRITE_SIZE);
-		collisionIndexValue = this.collisionMap.level1[((mapLevel1.tileWidth*topPos) + rightPos)];
-		this.checkCollision(rightPos*SPRITE_SIZE , topPos*SPRITE_SIZE , collisionIndexValue , mapLevel1);
+		collisionIndexValue = this.collisionMap.level1[((mapCurrentLevel.tileWidth*topPos) + rightPos)];
+		this.checkCollision(rightPos*SPRITE_SIZE , topPos*SPRITE_SIZE , collisionIndexValue , mapCurrentLevel);
 
 
 		//for bottomleft position co-ordinates
 		let bottomPos = Math.floor((this.heroPositionY + SPRITE_SIZE) / SPRITE_SIZE);
 		leftPos = Math.floor(this.heroPositionX / SPRITE_SIZE);
-		collisionIndexValue = this.collisionMap.level1[((mapLevel1.tileWidth*bottomPos) + leftPos)];
-		this.checkCollision(leftPos*SPRITE_SIZE , bottomPos*SPRITE_SIZE , collisionIndexValue , mapLevel1);
+		collisionIndexValue = this.collisionMap.level1[((mapCurrentLevel.tileWidth*bottomPos) + leftPos)];
+		this.checkCollision(leftPos*SPRITE_SIZE , bottomPos*SPRITE_SIZE , collisionIndexValue ,mapCurrentLevel);
 
 		//for bottomright position co-ordinates
 		bottomPos = Math.floor((this.heroPositionY + SPRITE_SIZE) / SPRITE_SIZE);
 		rightPos = Math.floor((this.heroPositionX + SPRITE_SIZE) / SPRITE_SIZE);
-		collisionIndexValue = this.collisionMap.level1[((mapLevel1.tileWidth*bottomPos) + rightPos)];
-		this.checkCollision(rightPos*SPRITE_SIZE , bottomPos*SPRITE_SIZE , collisionIndexValue , mapLevel1);
+		collisionIndexValue = this.collisionMap.level1[((mapCurrentLevel.tileWidth*bottomPos) + rightPos)];
+		this.checkCollision(rightPos*SPRITE_SIZE , bottomPos*SPRITE_SIZE , collisionIndexValue , mapCurrentLevel);
 
 		// console.log(topPos , leftPos , bottomPos , rightPos);
 		// console.log(this.heroPositionX , this.heroPositionY);
@@ -300,7 +300,7 @@ class Hero{
 	}
 
 	//checking for collision after obtaining the elements
-	checkCollision(xCord , yCord , collisionIndex, mapLevel){   // x and y co-ordinates of four corners of the character
+	checkCollision(xCord , yCord , collisionIndex, mapCurrentLevel){   // x and y co-ordinates of four corners of the character
 		// console.log(collisionIndex);
 		switch(collisionIndex){
 			case 1:
@@ -365,7 +365,7 @@ class Hero{
 				break;
 
 			case 16:
-				this.checkConsumableCollision(xCord , yCord , mapLevel1);
+				this.checkConsumableCollision(xCord , yCord , mapCurrentLevel);
 				break;
 
 			case 17:
@@ -458,11 +458,13 @@ class Hero{
   	}
   }
 
-  checkConsumableCollision(x , y , mapLevel){
+  checkConsumableCollision(x , y , mapCurrentLevel){
   	if(this.heroPositionX + SPRITE_SIZE > x  || this.heroPositionX + SPRITE_SIZE > y || this.heroPositionX < (x + SPRITE_SIZE)){
   		let j = x/SPRITE_SIZE;
   		let i = y/SPRITE_SIZE;
-  		let index = ((i*mapLevel.tileWidth) + j);
+
+  		let index = ((i*mapCurrentLevel.tileWidth) + j);
+  		console.log(mapCurrentLevel.mapLevel[index] , this.mapLayouts.level1[index]);
   		switch(this.mapLayouts.level1[index]){
   			case 3:
   				this.mapLayouts.level1[index] = 0;
@@ -525,6 +527,11 @@ class Hero{
 
  	// }
 
+ 	checkDoorCondition(gameLevel){
+ 		if(doorOpen){
+ 			gameLevel++;
+ 		}
+ 	}
 
  	eventController(){
 			document.addEventListener('keydown', event => {
