@@ -34,7 +34,6 @@ class Game{
 		this.tileMap = tileMap;
 		
 		this.frameCount =0;
-		this.gameLevel = 1;
 		
 
 		//tracking the number of times the control button is pressed
@@ -48,7 +47,7 @@ class Game{
 	}
 
 	getMap(){
-		switch(this.gameLevel){
+		switch(gameLevel){
 			case 1:
 			this.mapCurrentLevel.mapLevel = this.tileMap.level1;
 			break;
@@ -64,13 +63,13 @@ class Game{
 	// }
 
 animate(){
-	console.log(this.gameLevel);
+	console.log(gameLevel);
 	this.getMap();
 	this.mapCurrentLevel.drawMap();
 	this.trollELmObj.renderTrollElements();
 	this.hero.moveHero(this.buttonPress);
 	this.hero.getElementsPosition(this.mapCurrentLevel); // scanning the tile map to check for collision
-	this.hero.checkDoorCondition(this.gameLevel); // checking whether the door is locked or not
+	this.hero.checkDoorCondition(); // checking whether the door is locked or not
 	// this.eventController();
 	// console.log(controller);
 	window.requestAnimationFrame(() => this.animate());

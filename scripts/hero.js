@@ -33,12 +33,16 @@ class Hero{
 		// this.characterDefaultDisplay = true;
 		this.jump = false;
 		this.onAir = false;
+		this.doorCollison = false;
+		this.countCollison = 0;
 
 		//tracking the direction faced by the character
 		this.charRightFaced = true;
 
 		this.mapLayouts = mapLayouts;
 		this.collisionMap = collisionMap;
+
+		this.currentCollisionLevel = this.collisionMap.level1;
 
 		//creating sprite objects for characters
 		this.heroSpriteRight = new SpriteControl(this.ctx , character , 50 ,50 ,this.heroPositionX , this.heroPositionY , 50 ,50 ,3);
@@ -229,16 +233,29 @@ class Hero{
 		this.heroSpriteUp.spritePlotY = this. heroPositionY;
 	}
 
+	getCollisionMap() {
+		switch(gameLevel){
+			case 1:
+				this.currentCollisionLevel = this.collisionMap.level1;
+				break;
+			case 2:
+				this.currentCollisionLevel = this.collisionMap.leve2;
+				break;
+		}
+	}
+
 	getElementsPosition(mapCurrentLevel){
+		this.getCollisionMap();
+
 		//getting character position 
 		
 		//for its topleft corner((x,y) co-ordinates of its topleft corner)
-		
+
 		let topPos = Math.floor(this.heroPositionY/SPRITE_SIZE);
 		let  leftPos= Math.floor(this.heroPositionX/SPRITE_SIZE);
 
 		//the calculated co-ordinates are then converted to the index for the collision map array
-		let collisionIndexValue = this.collisionMap.level1[((mapCurrentLevel.tileWidth*topPos) + leftPos)]; 
+		let collisionIndexValue = this.currentCollisionLevel[((mapCurrentLevel.tileWidth*topPos) + leftPos)]; 
 
 		//collision checked for the topleft position of the game elements
 		this.checkCollision(leftPos*SPRITE_SIZE , topPos*SPRITE_SIZE , collisionIndexValue , mapCurrentLevel);
@@ -247,20 +264,20 @@ class Hero{
 		//now for topright position co-ordinates
 		topPos = Math.floor(this.heroPositionY/SPRITE_SIZE) // re-defining topPos for new interation of collision check
 		let rightPos = Math.floor((this.heroPositionX + SPRITE_SIZE) / SPRITE_SIZE);
-		collisionIndexValue = this.collisionMap.level1[((mapCurrentLevel.tileWidth*topPos) + rightPos)];
+		collisionIndexValue = this.currentCollisionLevel[((mapCurrentLevel.tileWidth*topPos) + rightPos)];
 		this.checkCollision(rightPos*SPRITE_SIZE , topPos*SPRITE_SIZE , collisionIndexValue , mapCurrentLevel);
 
 
 		//for bottomleft position co-ordinates
 		let bottomPos = Math.floor((this.heroPositionY + SPRITE_SIZE) / SPRITE_SIZE);
 		leftPos = Math.floor(this.heroPositionX / SPRITE_SIZE);
-		collisionIndexValue = this.collisionMap.level1[((mapCurrentLevel.tileWidth*bottomPos) + leftPos)];
+		collisionIndexValue = this.currentCollisionLevel[((mapCurrentLevel.tileWidth*bottomPos) + leftPos)];
 		this.checkCollision(leftPos*SPRITE_SIZE , bottomPos*SPRITE_SIZE , collisionIndexValue ,mapCurrentLevel);
 
 		//for bottomright position co-ordinates
 		bottomPos = Math.floor((this.heroPositionY + SPRITE_SIZE) / SPRITE_SIZE);
 		rightPos = Math.floor((this.heroPositionX + SPRITE_SIZE) / SPRITE_SIZE);
-		collisionIndexValue = this.collisionMap.level1[((mapCurrentLevel.tileWidth*bottomPos) + rightPos)];
+		collisionIndexValue = this.currentCollisionLevel[((mapCurrentLevel.tileWidth*bottomPos) + rightPos)];
 		this.checkCollision(rightPos*SPRITE_SIZE , bottomPos*SPRITE_SIZE , collisionIndexValue , mapCurrentLevel);
 
 		// console.log(topPos , leftPos , bottomPos , rightPos);
@@ -369,6 +386,7 @@ class Hero{
 				break;
 
 			case 17:
+				this.doorCollison = true;
 				this.handleDoorCollision();
 				console.log('door')
 				break;
@@ -527,13 +545,23 @@ class Hero{
 
  	// }
 
-
- 	checkDoorCondition(gameLevel){
- 		if(doorOpen){
- 			console.log('here');
- 			gameLevel++;
+ 	// **************improve this part ****************
+ 	handleDoorCollision(){
+ 		if(doorOpen && this.doorCollison){
+ 			return true;
  		}
  	}
+ 	checkDoorCondition(){
+ 		this.countCollison++;
+ 		if(this.handleDoorCollision() === true && this.countCollison === 1){
+ 			console.log('here');
+ 			gameLevel++;
+ 			this.countCollison = 0;
+ 		}
+ 	}
+
+ //****************************************************
+
 
  	eventController(){
 			document.addEventListener('keydown', event => {
