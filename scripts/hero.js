@@ -386,8 +386,7 @@ class Hero{
 				break;
 
 			case 17:
-				this.doorCollison = true;
-				this.handleDoorCollision();
+				this.handleDoorCollision(xCord , yCord);
 				console.log('door')
 				break;
 
@@ -550,17 +549,20 @@ class Hero{
  	// }
 
  	// **************improve this part ****************
- 	handleDoorCollision(){
- 		if(doorOpen && this.doorCollison){
- 			return true;
- 		}
+ 	handleDoorCollision(x, y){
+		if(this.heroPositionX  < (x + SPRITE_SIZE + 5) && this.oldvalueX >=(x + SPRITE_SIZE)){
+			if(controller[0]){
+				this.directionX = 0;
+				this.heroPositionX = x + SPRITE_SIZE + 5;
+				this.gameComplete = true;
+			}
+		}
  	}
+ 		
+ 	
  	checkDoorCondition(){
- 		this.countCollison++;
- 		if(this.handleDoorCollision() === true && this.countCollison === 1){
- 			console.log('here');
+ 		if(this.gameComplete){
  			gameLevel++;
- 			this.countCollison = 0;
  		}
  	}
 

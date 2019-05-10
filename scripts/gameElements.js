@@ -1,7 +1,7 @@
 
 let imageLoaded = false;
 let gameOver = false;
-let gameLevel = 2;
+let gameLevel = 1;
 
 //gameElement information
 
