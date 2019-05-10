@@ -49,6 +49,7 @@ class Game{
 		this.mapCurrentLevel = new Map(this.tileMap.level1 , 20, 10 , this.ctx);
 		this.hero = new Hero(heroPositionX , heroPositionY , this.ctx);
 		this.trollELmObj  = new TrollElements(this.ctx , this.hero);
+		this.monster = new Monster(this.ctx, 1650 , 250);
 
 	}
 
@@ -83,6 +84,7 @@ animate(){
 	this.hero.moveHero(this.buttonPress);
 	this.hero.getElementsPosition(this.mapCurrentLevel); // scanning the tile map to check for collision
 	this.hero.checkDoorCondition(); // checking whether the door is locked or not
+	this.monster.renderMonster();
 	// this.eventController();
 	// console.log(controller);
 	window.requestAnimationFrame(() => this.animate());

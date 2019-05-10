@@ -103,5 +103,9 @@ class SpriteControl{
 			this.frameCount = 0;
 		}
 	}
+
+	drawMonster(){
+		this.ctx.drawImage(this.spriteRefrence, this.spritePlotX, this.spritePlotY, this.spriteWidth , this.spriteHeight );
+	}
 	
 }

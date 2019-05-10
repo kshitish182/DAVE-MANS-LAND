@@ -67,6 +67,10 @@ const gameElements = {
 
 	charDeath : {
 		src : 'assets/images/char-death.png'
+	},
+
+	monster : {
+		src : 'assets/images/monster.png'
 	}
 }
 
@@ -109,6 +113,9 @@ charDeath.src = gameElements.charDeath.src;
 
 let gun = new Image();
 gun.src = gameElements.gun.src;
+
+let monster = new Image();
+monster.src = gameElements.monster.src;
 
 let outerCanvas = document.getElementById('outer-canvas');
 let context = outerCanvas.getContext('2d');
