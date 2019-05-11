@@ -1,11 +1,17 @@
 
 class TrollElements{
-	constructor(ctx , hero){
+	constructor(ctx , hero , mapCurrentLevel){
 		this.ctx = ctx;
 		this.hero = hero;
 
 		this.boobyTrap = false;
 		this.checkValue = true;
+		this.spikeCollision = false;
+
+		this.mapCurrentLevel = mapCurrentLevel;
+
+		this.spike1 = new Spikes(this.ctx , 525 , 400 , 500 , 450 , 550 , 450);
+		this.spike2 = new Spikes(this.ctx , 575 , 300 , 550 , 350 , 600 , 350);
 	}
 
 	// drawELementsLevel1(){
@@ -32,6 +38,8 @@ class TrollElements{
 			laserObj.drawLaserSet();
 			this.checkTrollElmCollision(laserObj);
 		}
+
+			this.initSpike();
 	}
 
 	checkTrophyCollection(){
@@ -56,6 +64,40 @@ class TrollElements{
 				console.log(this.boobyTrap);	
 		}
 	}
+
+	initSpike(){
+
+		if(this.spike1.spikeCollision){
+			this.spike1.renderSpikes();
+			console.log('here');
+		}
+			
+		if(this.spike2.spikeCollision){
+			this.spike2.renderSpikes();	
+		}
+
+		// console.log(spike1);
+		
+		this.checkSpikeCollision(this.spike1);	
+		this.checkSpikeCollision(this.spike2);
+	}
+
+	checkSpikeCollision(objRefrence){
+		if( (this.hero.heroPositionX + SPRITE_SIZE) >= (objRefrence.topPosX - 25) 
+																&&
+				this.hero.heroPositionX <= objRefrence.topPosX + 25
+																&&
+				(this.hero.heroPositionY + SPRITE_SIZE) >= objRefrence.topPosY
+			)
+		{
+			objRefrence.spikeCollision = true;
+			gameOver = true;
+		}
+
+	}
+
+	
+
 
 
 

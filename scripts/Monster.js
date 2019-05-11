@@ -29,13 +29,13 @@ class Monster{
 	renderMonster(){
 		this.calcMonsterPosition();
 		let monsterMotion = new SpriteControl(this.ctx ,monster ,this.monsterHeight ,this.monsterWidth ,this.monsterPositionX ,this.monsterPositionY ,this.monsterWidth ,this.monsterHeight , 1);
-		monsterMotion.drawMonster();
+		monsterMotion.drawElement();
 		this.monsterCollision();
 	}
 
 	monsterCollision(){
 		// console.log(this.hero.heroPositionX , this.hero.heroPositionY , this.monsterPositionX , this.monsterPositionY);
-		if( this.hero.heroPositionX >= this.monsterPositionX
+		if( this.hero.heroPositionX + SPRITE_SIZE >= this.monsterPositionX
 													&&
 			 (this.hero.heroPositionX ) <= this.monsterPositionX + this.monsterWidth
 			 										&&

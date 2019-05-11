@@ -19,6 +19,7 @@ class LaserSet{
 
 
 	drawLaserParts(xCord , yCord , width, height , color){
+		this.ctx.beginPath();
 		this.ctx.fillRect(xCord , yCord , width , height);
 		this.ctx.fillStyle = 'red';
 	}

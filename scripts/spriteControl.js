@@ -104,7 +104,7 @@ class SpriteControl{
 		}
 	}
 
-	drawMonster(){
+	drawElement(){
 		this.ctx.drawImage(this.spriteRefrence, this.spritePlotX, this.spritePlotY, this.spriteWidth , this.spriteHeight );
 	}
 

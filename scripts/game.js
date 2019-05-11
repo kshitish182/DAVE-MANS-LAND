@@ -39,7 +39,7 @@ class Game{
 		this.viewportWidth = 1000;
 		this.viewportHeight = 500;
 		
-		this.frameCount =0;
+		this.frameCount = 0;
 		
 
 		//tracking the number of times the control button is pressed
@@ -48,7 +48,7 @@ class Game{
 		//creating objects
 		this.mapCurrentLevel = new Map(this.tileMap.level1 , 20, 10 , this.ctx);
 		this.hero = new Hero(heroPositionX , heroPositionY , this.ctx);
-		this.trollELmObj  = new TrollElements(this.ctx , this.hero);
+		this.trollELmObj  = new TrollElements(this.ctx , this.hero , this.mapCurrentLevel);
 		this.monster = new Monster(this.ctx, 1650 , 250 , this.hero);
 		this.daveBullet = new Bullets(this.ctx , this.hero , this.monster);
 		this.monsterBullet = new Bullets(this.ctx , this.hero , this.monster);
@@ -82,7 +82,7 @@ animate(){
 	this.getMap();
 	this.mapCurrentLevel.drawMap();
 	this.hero.getElementsPosition(this.mapCurrentLevel);
-	this.trollELmObj.renderTrollElements();
+	// this.trollELmObj.renderTrollElements();
 	this.hero.moveHero(this.buttonPress);
 	// this.hero.getElementsPosition(this.mapCurrentLevel); // scanning the tile map to check for collision
 	this.hero.checkDoorCondition(); // checking whether the door is locked or not
@@ -99,16 +99,16 @@ animate(){
 changeViewport(){
 	if(gameLevel != 1){
 		// console.log(2*(this.viewportWidth - 50));
-		if( this.hero.heroPositionX >= (this.viewportWidth - 50) && this.hero.heroPositionX <= 2*(this.viewportWidth - 50) ){
+		if( this.hero.heroPositionX >= (this.viewportWidth - 25) && this.hero.heroPositionX <= 2*(this.viewportWidth - 25) ){
 			// console.log('here');
 			this.initialViewportShiftX = this.viewportWidth;
-		}else if(this.hero.heroPositionX > 2*(this.viewportWidth - 50)){
+		}else if(this.hero.heroPositionX > 2*(this.viewportWidth - 25)){
 			console.log('here');
 			this.initialViewportShiftX = 2*this.viewportWidth;
 		}
-		if(this.hero.heroPositionX <= (this.viewportWidth - 50)){
+		if(this.hero.heroPositionX <= (this.viewportWidth - 25)){
 			this.initialViewportShiftX = 0;
-		}else if(this.hero.heroPositionX < 2*(this.viewportWidth - 50)){
+		}else if(this.hero.heroPositionX < 2*(this.viewportWidth - 25)){
 			this.initialViewportShiftX = this.viewportWidth;
 		}
 	}
