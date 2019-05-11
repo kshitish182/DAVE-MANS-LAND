@@ -8,6 +8,7 @@ class Monster{
 		this.monsterWidth = 50;
 		this.monsterHeight = 74;
 		this.movementRadius = 100;
+		this.frameCount = 0;
 
 		this.angle = 0;
 	}
@@ -21,9 +22,20 @@ class Monster{
 			this.angle = 0;
 		}
 	}
+
 	renderMonster(){
 		this.calcMonsterPosition();
 		let monsterMotion = new SpriteControl(this.ctx ,monster ,this.monsterHeight ,this.monsterWidth ,this.monsterPositionX ,this.monsterPositionY ,this.monsterWidth ,this.monsterHeight , 1);
 		monsterMotion.drawMonster();
 	}
+
+	// fireBullet(){
+	// 	if(this.frameCount <= 300){
+	// 		this.renderBullet();
+	// 	}
+	// }
+
+	// renderBullet(){
+		
+	// }
 }
