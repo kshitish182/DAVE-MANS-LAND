@@ -1,4 +1,4 @@
-let doorOpen = false;
+
 class TrollElements{
 	constructor(ctx , hero){
 		this.ctx = ctx;

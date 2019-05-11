@@ -1,7 +1,5 @@
 let heroInitialPosX = 0;
 let heroInitialPosY = 0;
-let controller = [false, false, false]; 
-let controllerLog = [];
 let i =0;
 let count = 0;
 let jumpCount = 0;
@@ -83,7 +81,7 @@ class Hero{
 				if(this.charRightFaced){
 					this.heroSpriteRight.drawSpriteRight(this.directionX , this.directionY , this.buttonPress , this.onAir);
 				}else{
-					this.heroSpriteLeft.drawSpriteLeft(this.directionX , this.directionY , this.buttonPress , this.onAir )
+					this.heroSpriteLeft.drawSpriteLeft(this.directionX , this.directionY , this.buttonPress , this.onAir );
 				}
 			}
 		}
@@ -428,7 +426,7 @@ class Hero{
 	 }
 
  	checkCollisionRight(x , y){
- 		if(this.heroPositionX  < (x + SPRITE_SIZE + 5) && this.oldvalueX >=(x + SPRITE_SIZE)){
+ 		if(this.heroPositionX  <= (x + SPRITE_SIZE) && this.oldvalueX >=(x + SPRITE_SIZE)){
  			// console.log('collision-right', this.heroPositionX , this.oldvalueX);
  			if(controller[0]){
  			this.directionX = 0;
@@ -500,6 +498,7 @@ class Hero{
 
   			case 9: 
   				mapCurrentLevel.mapLevel[index] = 0;
+  				gunObtained = true;
   				console.log('gun');
   				break;
   		}
@@ -538,6 +537,8 @@ class Hero{
 			}
 		}
  	}
+
+ 
 
  	// getoldValue(){
  	// 	this.oldvalueX = this.heroPositionX;
@@ -588,6 +589,9 @@ class Hero{
 								controller[1] = true;
 								this.buttonPress = true;
 							}
+							if(event.keyCode === 17){
+								specialController[0] = true;
+							}
 							if(!this.buttonPress){
 								this.gravity = 'on';
 							}
@@ -600,6 +604,7 @@ class Hero{
 				// controller = [false , false , false];
 				controller[0] = false; //left-arrow
 				controller[2] = false; //right-arrow
+				specialController[0] = false;
 		});
 	}
 }

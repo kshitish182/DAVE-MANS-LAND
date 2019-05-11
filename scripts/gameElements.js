@@ -2,6 +2,11 @@
 let imageLoaded = false;
 let gameOver = false;
 let gameLevel = 1;
+let doorOpen = false;
+let gunObtained = false;
+
+let specialController = [false , false];
+let controller = [false, false, false]; 
 
 //gameElement information
 
@@ -71,6 +76,14 @@ const gameElements = {
 
 	monster : {
 		src : 'assets/images/monster.png'
+	},
+
+	daveBullet : {
+		src : 'assets/images/dave-bullet.png'
+	},
+
+	monsterBullet : {
+		src : 'assets/images/monster-bullet.png'
 	}
 }
 
@@ -116,6 +129,12 @@ gun.src = gameElements.gun.src;
 
 let monster = new Image();
 monster.src = gameElements.monster.src;
+
+let daveBullet = new Image();
+daveBullet.src = gameElements.daveBullet.src;
+
+let monsterBullet = new Image();
+monsterBullet.src = gameElements.monsterBullet.src;
 
 let outerCanvas = document.getElementById('outer-canvas');
 let context = outerCanvas.getContext('2d');

@@ -107,5 +107,10 @@ class SpriteControl{
 	drawMonster(){
 		this.ctx.drawImage(this.spriteRefrence, this.spritePlotX, this.spritePlotY, this.spriteWidth , this.spriteHeight );
 	}
+
+	drawBulletRight(){
+		this.spriteInitialPosX = 36; // position of sprite image in sprite sheet
+		this.ctx.drawImage(this.spriteRefrence, this.spriteInitialPosX, this.spriteInitialPosY, this.spriteWidth , this.spriteHeight, this.spritePlotX , this.spritePlotY, this.elmntWidth , this.elmntHeight);
+	}
 	
 }
