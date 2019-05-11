@@ -49,8 +49,9 @@ class Game{
 		this.mapCurrentLevel = new Map(this.tileMap.level1 , 20, 10 , this.ctx);
 		this.hero = new Hero(heroPositionX , heroPositionY , this.ctx);
 		this.trollELmObj  = new TrollElements(this.ctx , this.hero);
-		this.monster = new Monster(this.ctx, 1650 , 250);
-		this.bullet = new Bullets(this.ctx , this.hero , this.monster);
+		this.monster = new Monster(this.ctx, 1650 , 250 , this.hero);
+		this.daveBullet = new Bullets(this.ctx , this.hero , this.monster);
+		this.monsterBullet = new Bullets(this.ctx , this.hero , this.monster);
 	}
 
 	getMap(){
@@ -86,7 +87,8 @@ animate(){
 	// this.hero.getElementsPosition(this.mapCurrentLevel); // scanning the tile map to check for collision
 	this.hero.checkDoorCondition(); // checking whether the door is locked or not
 	this.monster.renderMonster();
-	this.bullet.renderDaveBullets();
+	this.daveBullet.renderDaveBullets();
+	this.monsterBullet.renderMonsterBullets();
 	// this.bullet.renderMonsterBullets();
 	// this.eventController();
 	// console.log(controller);

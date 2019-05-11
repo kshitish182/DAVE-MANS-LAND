@@ -56,19 +56,19 @@ class Bullets{
 		}
 	}
 
-	// renderMonsterBullets(){
-	// 	this.recordCharPosition(this.monster.monsterPositionX , this.monster.monsterPositionY)
-	// 	if(this.bulletTravelDirection <= 500){
-	// 		this.bulletPlotX = (this.charPositionX + SPRITE_SIZE) + this.bulletTravelDirection;
-	// 		this.bulletPlotY = (this.charPositionY + SPRITE_SIZE/2);
-	// 		let drawMonsterBullet = new SpriteControl(this.ctx , monsterBullet , this.bulletWidth , this.bulletHeight , this.bulletPlotX , this.bulletPlotY , this.bulletWidth , this.bulletHeight , 1);
-	// 		drawMonsterBullet.drawBulletRight();
-	// 	}else if(this.bulletTravelDirection > 500){
-	// 		this.bulletPlotX = 0;
-	// 		this.bulletPlotY = 0;
-	// 		this.bulletTravelDirection = 5;
-	// 		this.bulletFire = false;
-	// 	}
-	// }
+	renderMonsterBullets(){
+		this.recordCharPosition(this.monster.monsterPositionX , this.monster.monsterPositionY)
+		if(this.bulletTravelDirection <= 500){
+			this.bulletPlotX = (this.charPositionX + SPRITE_SIZE) + this.bulletTravelDirection;
+			this.bulletPlotY = (this.charPositionY + SPRITE_SIZE/2);
+			let drawMonsterBullet = new SpriteControl(this.ctx , monsterBullet , this.bulletWidth , this.bulletHeight , this.bulletPlotX , this.bulletPlotY , this.bulletWidth , this.bulletHeight , 1);
+			drawMonsterBullet.drawBulletRight();
+		}else if(this.bulletTravelDirection > 500){
+			this.bulletPlotX = 0;
+			this.bulletPlotY = 0;
+			this.bulletTravelDirection = 5;
+			this.bulletFire = false;
+		}
+	}
 
 }
