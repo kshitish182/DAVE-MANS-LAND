@@ -49,9 +49,8 @@ class SpriteControl{
 	drawSpriteUp(directionX , directionY , buttonPress  , charRightFaced){
 
 		// this.ctx.drawImage(this.spriteRefrence , this.spriteInitialPosX , this.spriteInitialPosY , this.spriteWidth , this.spriteHeight , this.spritePlotX , this.spritePlotY , this.elmntWidth , this.elmntHeight);
-		
-		this.ctx.drawImage(this.spriteRefrence , this.spriteInitialPosX , this.spriteInitialPosY , this.spriteWidth , this.spriteHeight , this.spritePlotX , this.spritePlotY , this.elmntWidth , this.elmntHeight);
 		this.frameCount++;
+	console.log(this.spritePlotY);
 		//holding the movement of character for 3 frames (to manage speed)
 		if(this.frameCount > 2){
 			if(buttonPress){
@@ -61,21 +60,22 @@ class SpriteControl{
 						this.spriteInitialPosX = 400;
 					}
 					
-						this.spritePlotY -= directionY;
+						// this.spritePlotY = directionY;
+						// console.log(this.spritePlotY);
 					// this.spritePlotX = this.spritePlotX;
 				}
 			this.frameCount = 0;
 		}
+	this.ctx.drawImage(this.spriteRefrence , this.spriteInitialPosX , this.spriteInitialPosY , this.spriteWidth , this.spriteHeight , this.spritePlotX , this.spritePlotY , this.elmntWidth , this.elmntHeight);
 	}
 
 	drawSpriteRight(directionX , directionY, buttonPress , onAir){
-		this.ctx.drawImage(this.spriteRefrence , this.spriteInitialPosX , this.spriteInitialPosY , this.spriteWidth , this.spriteHeight , this.spritePlotX , this.spritePlotY , this.elmntWidth , this.elmntHeight);
 		this.frameCount++;
 		if(this.frameCount > 3){
 			if(buttonPress){
 				this.spriteInitialPosX += 50;
-				this.spritePlotX += directionX;
-				this.spritePlotY -= directionY;
+				// this.spritePlotX = directionX;
+				// this.spritePlotY = directionY;
 				this.countSpriteImage++;
 				if(this.countSpriteImage >= this.spriteNumber ){ 
 			 		this.spriteInitialPosX = 50;
@@ -84,16 +84,16 @@ class SpriteControl{
 			}
 			this.frameCount = 0;
 		}
+		this.ctx.drawImage(this.spriteRefrence , this.spriteInitialPosX , this.spriteInitialPosY , this.spriteWidth , this.spriteHeight , this.spritePlotX , this.spritePlotY , this.elmntWidth , this.elmntHeight);
 	}
 
 	drawSpriteLeft(directionX , directionY, buttonPress, onAir){
-		this.ctx.drawImage(this.spriteRefrence , this.spriteInitialPosX , this.spriteInitialPosY , this.spriteWidth , this.spriteHeight , this.spritePlotX , this.spritePlotY , this.elmntWidth , this.elmntHeight);
 		this.frameCount++;
 		if(this.frameCount > 3){
 			if(buttonPress){
 				this.spriteInitialPosX +=50;
-				this.spritePlotX -= directionX;
-				this.spritePlotY -= directionY;
+				// this.spritePlotX = directionX;
+				// this.spritePlotY = directionY;
 				this.countSpriteImage++;
 				if(this.countSpriteImage >= this.spriteNumber){
 					this.spriteInitialPosX = 250;
@@ -102,13 +102,14 @@ class SpriteControl{
 			}
 			this.frameCount = 0;
 		}
+		this.ctx.drawImage(this.spriteRefrence , this.spriteInitialPosX , this.spriteInitialPosY , this.spriteWidth , this.spriteHeight , this.spritePlotX , this.spritePlotY , this.elmntWidth , this.elmntHeight);
 	}
 
 	drawElement(){
 		this.ctx.drawImage(this.spriteRefrence, this.spritePlotX, this.spritePlotY, this.spriteWidth , this.spriteHeight );
 	}
 
-	drawBulletRight(){
+	drawBullet(){
 		this.spriteInitialPosX = 36; // position of sprite image in sprite sheet
 		this.ctx.drawImage(this.spriteRefrence, this.spriteInitialPosX, this.spriteInitialPosY, this.spriteWidth , this.spriteHeight, this.spritePlotX , this.spritePlotY, this.elmntWidth , this.elmntHeight);
 	}

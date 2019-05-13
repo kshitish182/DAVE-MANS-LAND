@@ -1,17 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>sprite test</title>
+	<title>DAVE MANS LAND</title>
+	<link rel="stylesheet" type="text/css" href="styles/style.css">
 </head>
 <body>
+	<div id="startMenu" class="start-menu-container">
+		<h1>DAVE MANS LAND</h1>
+		<div class='control-description'>
+			USE ARROW KEYS TO CONTROL THE PLAYER
+			<p>NOTE: TO JUMP PRESS UP AND SIDE ARROW ONE AFTER ANOTHER</p>
+		</div>
+		<button id='startButton'>START GAME</button>
+		</div>
+	</div>
+	<div id='scoreBoardContainer' class="score-board-container clearfix">
+		<div class="score-count-container">
+			SCORE: <span id='score'>0</span>
+		</div>
+		<div class="level-indicator">
+			LEVEL: <span id='level'>1</span>
+		</div>
+		<div class="life-container">
+			DAVES: <span id='lives'>5</span>
+		</div>
+	</div>	
 	<canvas id='outer-canvas'>
 		<canvas id='canvas'>
 		</canvas>
 	</canvas>
+	<div id="messageContainer" class="message-container">
+		<p id= "para"></p>
+	</div>
+	<script src="scripts/Menu.js"></script>
 	<script src="scripts/gameElements.js"></script>
 	<script src="scripts/maplayouts.js"></script>
-	<script src = "scripts/spriteControl.js"></script>
+	<script src ="scripts/spriteControl.js"></script>
 	<script src="scripts/Bullets.js"></script>
+	<script src="scripts/AnimationHandler.js"></script>
+	<script src="scripts/ScoreBoard.js"></script>
+	<script src="scripts/TextHandler.js"></script>
 	<script src="scripts/hero.js"></script>
 	<script src="scripts/Monster.js"></script>
 	<script src="scripts/Spikes.js"></script>

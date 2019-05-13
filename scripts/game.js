@@ -1,24 +1,14 @@
 
-  //[leftArrow upArrow rightArrow]
 
-// let spriteInitialPosX = 0;
-// let spriteInitialPosY = 0;
 let spriteHeroInitialX = 0;
 let spriteHeroInitialY = 0;
 let countSpriteImage = 0;
 let countSpriteImageHero = 0;
-let heroPositionX = 100;
-let heroPositionY = 400;
-// let directionX = 5;
-// let directionY = 5;
- // let controller = {
-	// 		upArrow : false,
-	// 		leftArrow : false,
-	// 		rightArrow : false
-	// 	}
+// let heroPositionX = 100;
+// let heroPositionY = 400;
 
 class Game{
-	constructor(canvasWidth, canvasHeight , tileMap){
+	constructor(canvasWidth, canvasHeight , tileMap , context){
 		this.canvas = document.getElementById('canvas');
 		this.ctx = this.canvas.getContext('2d');
 
@@ -46,16 +36,18 @@ class Game{
 		this.eventCounter = 0; 
 
 		//creating objects
+		this.scoreBoardObj= new ScoreBoard();
+		this.textMessage = new TextHandler();
 		this.mapCurrentLevel = new Map(this.tileMap.level1 , 20, 10 , this.ctx);
-		this.hero = new Hero(heroPositionX , heroPositionY , this.ctx);
-		this.trollELmObj  = new TrollElements(this.ctx , this.hero , this.mapCurrentLevel);
+		this.hero = new Hero(100 , 400 , this.ctx , this.scoreBoardObj, this.textMessage, this.canvas); // 100 and 400 are initial position of the character
+		this.trollELmObj  = new TrollElements(this.ctx , this.hero , this.mapCurrentLevel, this.scoreBoardObj);
 		this.monster = new Monster(this.ctx, 1650 , 250 , this.hero);
 		this.daveBullet = new Bullets(this.ctx , this.hero , this.monster);
 		this.monsterBullet = new Bullets(this.ctx , this.hero , this.monster);
 	}
 
 	getMap(){
-		switch(gameLevel){
+		switch(this.scoreBoardObj.currentLevel){
 			case 1:
 			this.mapCurrentLevel.mapLevel = this.tileMap.level1;
 			break;
@@ -67,129 +59,55 @@ class Game{
 	}
 
 	canvasInit(){
+		// drawing the inner canvas in the outer canvas
 		context.drawImage(this.canvas , this.initialViewportShiftX , this.initialViewportShiftY , this.canvas.width , this.canvas.height , 0, 0, 4000, 500);
 	}
 
+	mapRender(){
+		this.getMap();
+		this.mapCurrentLevel.drawMap();
+	}
 
-	// levelController(){
-	// 	let mapLevel1 = new Map(this.tileMap.level1);
-	// }
+	heroControl(){
+		this.hero.moveHero(this.buttonPress , this.mapCurrentLevel);
+		this.hero.getElementsPosition(this.mapCurrentLevel);
+		this.hero.checkDoorCondition(); // check to see if the door is unlocked or not
+	}
 
-animate(){
-	// console.log(gunObtained);
-	this.changeViewport();
+
+	animate(){
+	if(animationFrameStart){
+		window.requestAnimationFrame(() => this.animate());
+	}
+
 	this.canvasInit();
-	this.getMap();
-	this.mapCurrentLevel.drawMap();
-	this.hero.getElementsPosition(this.mapCurrentLevel);
-	// this.trollELmObj.renderTrollElements();
-	this.hero.moveHero(this.buttonPress);
-	// this.hero.getElementsPosition(this.mapCurrentLevel); // scanning the tile map to check for collision
-	this.hero.checkDoorCondition(); // checking whether the door is locked or not
+	this.changeViewport();
+	this.scoreBoardObj.renderScoreBoard();
+	this.textMessage.renderMessage();
+	this.mapRender();
+	this.heroControl();
 	this.monster.renderMonster();
+	this.trollELmObj.renderTrollElements();
 	this.daveBullet.renderDaveBullets();
-	this.monsterBullet.renderMonsterBullets();
-	// this.bullet.renderMonsterBullets();
-	// this.eventController();
-	// console.log(controller);
-	window.requestAnimationFrame(() => this.animate());
-}
 
+	}
 
-changeViewport(){
-	if(gameLevel != 1){
-		// console.log(2*(this.viewportWidth - 50));
-		if( this.hero.heroPositionX >= (this.viewportWidth - 25) && this.hero.heroPositionX <= 2*(this.viewportWidth - 25) ){
-			// console.log('here');
-			this.initialViewportShiftX = this.viewportWidth;
-		}else if(this.hero.heroPositionX > 2*(this.viewportWidth - 25)){
-			console.log('here');
-			this.initialViewportShiftX = 2*this.viewportWidth;
-		}
-		if(this.hero.heroPositionX <= (this.viewportWidth - 25)){
-			this.initialViewportShiftX = 0;
-		}else if(this.hero.heroPositionX < 2*(this.viewportWidth - 25)){
-			this.initialViewportShiftX = this.viewportWidth;
+//used for sliding the canvas after overflow(character goes past the viewport)
+	changeViewport(){
+		if(this.scoreBoardObj.currentLevel != 1){
+		
+			if( this.hero.heroPositionX >= (this.viewportWidth - 25) && this.hero.heroPositionX <= 2*(this.viewportWidth - 25) ){
+				this.initialViewportShiftX = this.viewportWidth;
+			}else if(this.hero.heroPositionX > 2*(this.viewportWidth - 25)){
+				this.initialViewportShiftX = 2*this.viewportWidth;
+			}
+			if(this.hero.heroPositionX <= (this.viewportWidth - 25)){
+				this.initialViewportShiftX = 0;
+			}else if(this.hero.heroPositionX < 2*(this.viewportWidth - 25)){
+				this.initialViewportShiftX = this.viewportWidth;
+			}
 		}
 	}
-}
-
-
-// hero(){
-// 	this.moveHero();
-// 	this.renderHero();
-// }
-
-// renderHero(){
-// 	this.ctx.fillStyle = "#FF0000";
-// 	this.ctx.fillRect(heroPositionX , heroPositionY , 50 , 50);
-// }
-
-// moveHero(){
-// 	// console.log('x', heroPositionX , 'y' , heroPositionY);
-// 	if(controller[0]  && controller[1]){
-// 		heroPositionX -= directionX;
-// 		heroPositionY -= directionY;
-// 	}
-// 	else if(controller[1] && controller[2]){
-// 		heroPositionY -= directionY;
-// 		heroPositionX += directionX;
-// 	}
-// 	else if(controller[0]){
-// 		heroPositionX -= directionX; 
-// 	}
-// 	else if(controller[1]){
-// 		heroPositionY -= directionY;
-// 	}
-// 	else if(controller[2]){
-// 		heroPositionX += directionX;
-// 	}else{
-// 		heroPositionY += directionX/4;
-// 	}
-// }
-		
-
-	// eventController(){
-	// 		document.addEventListener('keydown', event => {
-	// 				this.hero.gravity = 'off';
-	// 					if(i >= 2){
-	// 						i=0;
-	// 					}
-	// 					if(event.keyCode === 39){    //right-arrow
-	// 						controller[2] = true;
-	// 						this.buttonPress = true;
-	// 						this.hero.charRightFaced = true;
-	// 						controllerLog[i]= event.keyCode;
-	// 						i++;
-	// 					}
-	// 					if(event.keyCode === 37){   //left-arrow
-	// 						controller[0] = true;
-	// 						this.buttonPress = true;
-	// 						this.hero.charRightFaced = false;
-	// 						controllerLog[i]= event.keyCode;
-	// 						i++;
-	// 					}
-	// 					if(event.keyCode === 38  && !this.hero.jump){   //up-arrow
-	// 							// console.log(event);
-	// 							controller[1] = true;
-	// 							this.buttonPress = true;
-	// 							this.eventCounter = 0;
-	// 							controllerLog[i]= event.keyCode;
-	// 							i++;
-	// 					}
-	// 					if(!this.buttonPress){
-	// 						this.hero.gravity = 'on';
-	// 					}
-	// 		});
-
-	// 	document.addEventListener('keyup', event =>{
-	// 			this.buttonPress = false;
-	// 			this.hero.gravity = 'on';
-	// 			// controller = [false , false , false];
-	// 			controller[0] = false; //left-arrow
-	// 			controller[2] = false; //right-arrow
-	// 	});
-	// }
 }
 
 let game = new Game(4000 , 500 , mapLayouts);

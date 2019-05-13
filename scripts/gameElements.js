@@ -136,11 +136,6 @@ daveBullet.src = gameElements.daveBullet.src;
 let monsterBullet = new Image();
 monsterBullet.src = gameElements.monsterBullet.src;
 
-let outerCanvas = document.getElementById('outer-canvas');
-let context = outerCanvas.getContext('2d');
 
 
-//styling outer canvas
-outerCanvas.width = 1000;
-outerCanvas.height = 500;
-outerCanvas.style.border = "1px solid black";
+

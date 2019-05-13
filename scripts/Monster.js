@@ -11,9 +11,10 @@ class Monster{
 		this.monsterWidth = 50;
 		this.monsterHeight = 74;
 		this.movementRadius = 100;
-		this.frameCount = 0;
 
 		this.angle = 0;
+
+		this.monsterDeath = false;
 	}
 
 	calcMonsterPosition(){
@@ -27,10 +28,12 @@ class Monster{
 	}
 
 	renderMonster(){
-		this.calcMonsterPosition();
-		let monsterMotion = new SpriteControl(this.ctx ,monster ,this.monsterHeight ,this.monsterWidth ,this.monsterPositionX ,this.monsterPositionY ,this.monsterWidth ,this.monsterHeight , 1);
-		monsterMotion.drawElement();
-		this.monsterCollision();
+		if(!this.monsterDeath){
+			this.calcMonsterPosition();
+			let monsterMotion = new SpriteControl(this.ctx ,monster ,this.monsterHeight ,this.monsterWidth ,this.monsterPositionX ,this.monsterPositionY ,this.monsterWidth ,this.monsterHeight , 1);
+			monsterMotion.drawElement();
+			this.monsterCollision();
+		}
 	}
 
 	monsterCollision(){
@@ -48,14 +51,4 @@ class Monster{
 		} 
 			
 	}
-
-	// fireBullet(){
-	// 	if(this.frameCount <= 300){
-	// 		this.renderBullet();
-	// 	}
-	// }
-
-	// renderBullet(){
-		
-	// }
 }

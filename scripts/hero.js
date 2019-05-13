@@ -6,11 +6,15 @@ let jumpCount = 0;
 let sideplacementright = 0;
 let sideplacementleft = 0;
 let buffer = 10;
+let lastLevel = false;
+let animationFrameStart = true;
 
 const SPRITE_SIZE = 50;
+const FINAL_LEVEL = 2;
+
 
 class Hero{
-	constructor(heroPositionX , heroPOsitionY , ctx, doorOpen){
+	constructor(heroPositionX , heroPositionY , ctx, scoreBoardObj , textMessage , canvas){
 		this.heroPositionX = heroPositionX;
 		this.heroPositionY = heroPositionY;
 		this.heroInitialPosX = heroPositionX;
@@ -19,13 +23,16 @@ class Hero{
 		this.oldvalueY = heroPositionY;
 		
 		//distance in x and y direction moved by the character in a single event
-		this.directionX = 3;
-		this.directionY = 3;
+		this.directionX = 5;
+		this.directionY = 5;
 
 		this.ctx = ctx;
 		this.buttonPress = false;
 		this.gravity = 'off';
+		this.gameComplete = false;
 
+		this.scoreBoardObj = scoreBoardObj;
+		this.textMessage = textMessage;
 		//for counting number of frames to hold certain fucntion for certain number of frames
 		this.frameCount = 0;
 		// this.characterDefaultDisplay = true;
@@ -42,11 +49,15 @@ class Hero{
 
 		this.currentCollisionLevel = this.collisionMap.level1;
 
-		//creating sprite objects for characters
+		//creating objects
 		this.heroSpriteRight = new SpriteControl(this.ctx , character , 50 ,50 ,this.heroPositionX , this.heroPositionY , 50 ,50 ,3);
 		this.heroSpriteLeft = new SpriteControl(this.ctx , character , 50 , 50 , this.heroPositionX , this.heroPositionY , 50 , 50 ,3);
 		this.heroSpriteUp = new SpriteControl(this.ctx , character , 50 ,50 , this. heroPositionX, this.heroPositionY,50 ,50 , 9);
 		this.heroDeath = new SpriteControl(this.ctx, charDeath , 48 , 50 , this.heroPositionX , this.heroPositionY , 50 ,50 , 1);
+		this.lvlTransitionAnimation = new AnimationHandler(lvltransitionMap , this.ctx , this.textMessage);
+		this.gameOverAnimation = new AnimationHandler(this.ctx , this.textMessage);
+		this.gameCompleteAnimation = new AnimationHandler(this.ctx , this.textMessage);
+		this.canvas = canvas;
 
 		//intialising object properties
 		this.heroSpriteLeft.spriteInitialPosX = 250;
@@ -54,84 +65,44 @@ class Hero{
 	}
 
 	renderHero(buttonPress){
-		// console.log(controllerLog);
-		//this is the default positioning of the character (right faced)
-		// console.log(controller);
-		// if(controller[2] || this.characterDefaultDisplay){
-		// 	// console.log('here');
-		// 	this.heroSpriteRight.drawSpriteRight(this.directionX, this.directionY , buttonPress, this.onAir , this.charRightFaced);
-		// 	this.characterDefaultDisplay = true;
-		// }else if(controller[0]){
-		// 	this.heroSpriteLeft.drawSpriteLeft(this.directionX , 0 , buttonPress, this.onAir , this.charRightFaced);
-		// 	this.characterDefaultDisplay = false;
-		//  } else if(controller[1]){
-		//  	this.heroSpriteUp.drawSpriteUp(this.directionX , this.directionY , buttonPress, this.onAir, this.charRightFaced);
-		//  	this.characterDefaultDisplay = false;
-		//  }
 		if(!gameOver){
 			if(controller[2] && !this.onAir){
 				this.heroSpriteRight.drawSpriteRight(this.directionX , this.directionY , this.buttonPress , this.onAir);
+				// this.heroSpriteRight.drawSpriteRight(this.heroPositionX , this.heroPositionY , this.buttonPress , this.onAir);
 			}else if (controller[0] && !this.onAir){
 				this.heroSpriteLeft.drawSpriteLeft(this.directionX , this.directionY , this.buttonPress , this.onAir);
+				// this.heroSpriteLeft.drawSpriteLeft(this.heroPositionX , this.heroPositionY , this.buttonPress , this.onAir);
 			}else if(controller[1] || this.onAir){
 				// console.log(this.charRightFaced);
 				this.heroSpriteUp.drawSpriteUp(this.directionX , this.directionY , this.buttonPress , this.charRightFaced);
+				// this.heroSpriteUp.drawSpriteUp(this.heroPositionX , this.heroPositionY , this.buttonPress , this.charRightFaced);
 			}
 			else if(!controller[0] && !controller[2] && !controller[1]){
 				if(this.charRightFaced){
 					this.heroSpriteRight.drawSpriteRight(this.directionX , this.directionY , this.buttonPress , this.onAir);
+					// this.heroSpriteRight.drawSpriteRight(this.heroPositionX , this.heroPositionY , this.buttonPress , this.onAir);
 				}else{
 					this.heroSpriteLeft.drawSpriteLeft(this.directionX , this.directionY , this.buttonPress , this.onAir );
+					// this.heroSpriteLeft.drawSpriteLeft(this.heroPositionX , this.heroPositionY , this.buttonPress , this.onAir);
 				}
 			}
 		}
-		this.checkGameOver();
-		// if(controller[2]){
-		// 	this.characterDefaultDisplay = true;
-		// }		
+		this.checkGameOver();		
 	}
 
-	moveHero(buttonPress){
-			this.renderHero(buttonPress);
-			// this.frameCount++
-			// console.log(controller);
-			// if(this.frameCount >= 1){
-				// if(controller[2] && controller[1]){
-
-				// 	//reseting direction of the character
-				// 	this.resetDirection();
-				// 	this.heroPositionX += this.directionX;
-				// 	this.heroPositionY -= this.directionY;
-				// 	this.updatePosition();
-				// }
-				// else if(controller[1] && controller[0]){	
-				// 	this.resetDirection();
-
-				// 	this.heroPositionY -= this.directionY;
-				// 	this.heroPositionX -= this.directionX;
-				// 	this.updatePosition();
-				// }
-				// else 
+	moveHero(buttonPress, mapCurrentLevel){
 				
 				if(controller[1]){
 					this.resetDirection();
-					// console.log('here');
-					// console.log(count);
-					// if(count < 4){
-						// console.log(jumpCount);
-					// if(jumpCount <= 200){
-						// console.log(this.heroPositionY);
 						if(jumpCount <= 150){
 							this.onAir = true;
-							// this.jump = true;
 							this.oldvalueX = this.heroPositionX;
 							this.oldvalueY = this.heroPositionY;
-							this.heroPositionY -= 5;
+							this.heroPositionY -= this.directionY;
 							this.heroPositionX = this.heroPositionX;
-							jumpCount += 5;
-							this.updatePosition();
+							jumpCount += this.directionY;
 						}
-						if(jumpCount > 100){
+						if(jumpCount > 150){
 							this.gravity = 'on';
 						}
 						if(controller[2]){
@@ -139,11 +110,11 @@ class Hero{
 								if(sideplacementright <= 50){
 									this.oldvalueX = this.heroPositionX;
 									this.oldvalueY = this.heroPositionY;
-									this.heroPositionX += 5;
-									sideplacementright += 5;
-									this.updatePosition();
+									this.heroPositionX += this.directionX;
+									this.heroPositionY = this.heroPositionY;
+									sideplacementright += this.directionX;
 								}
-								if(sideplacementright > 40){
+								if(sideplacementright > 50){
 									this.gravity = 'on';
 								}
 							}
@@ -153,38 +124,21 @@ class Hero{
 								if(sideplacementleft <= 50){
 									this.oldvalueX = this.heroPositionX;
 									this.oldvalueY = this.heroPositionY;
-									this.heroPositionX -= 5;
-									sideplacementleft += 5;
-									this.updatePosition();
+									this.heroPositionX -= this.directionX;
+									this.heroPositionY = this.heroPositionY
+									sideplacementleft += this.directionX;
 								}
-								if(sideplacementleft > 40){
+								if(sideplacementleft > 50){
 									this.gravity = 'on';
 								}
 							}
 						}
-						// jumpCount+=this.directionY;
-						// this.updatePosition(); 
-						// this.jump = true;
-						// this.onAir = true;
-					// }
-					// if(jumpCount > 200){
-					// 	this.gravity = 'on';
-					// }
-					// 	count++;
-					// }
-					// if(count === 4){
-					// 	controller[0] = false;
-					// }
-					// this.updatePosition();
-				}
-				else if(controller[0]){
-					// console.log('also here');
+				}else if(controller[0]){
 					this.resetDirection();
 					this.oldvalueX = this.heroPositionX;
 					this.oldvalueY = this.heroPositionY;
 					this.heroPositionX -= this.directionX;
 					this.heroPositionY = this.heroPositionY;
-					this.updatePosition();
 				}
 				else if(controller[2]){
 					this.resetDirection();
@@ -192,7 +146,7 @@ class Hero{
 					this.oldvalueY = this.heroPositionY;
 					this.heroPositionX += this.directionX;
 					this.heroPositionY = this.heroPositionY;
-					this.updatePosition();
+					// this.updatePosition();
 				 }
 
 				// if(this.onAir){
@@ -209,7 +163,11 @@ class Hero{
 				// 	}
 				// }
 			// }
-			this.initGravity();	
+			
+			this.updatePosition();	
+			this.renderHero(buttonPress);
+			// this.getElementsPosition(mapCurrentLevel);
+			this.initGravity();
 	}
 
 	initGravity(){
@@ -217,7 +175,7 @@ class Hero{
 		if(this.gravity === 'on'){
 			//gravity pulls the hero downward in 1/4 the direction it moves
 			this.heroPositionY += this.directionY/2;
-			this.updatePosition();
+			// this.updatePosition();
 		}
 	}
 
@@ -232,7 +190,7 @@ class Hero{
 	}
 
 	getCollisionMap() {
-		switch(gameLevel){
+		switch(this.scoreBoardObj.currentLevel){
 			case 1:
 				this.currentCollisionLevel = this.collisionMap.level1;
 				break;
@@ -385,7 +343,6 @@ class Hero{
 
 			case 17:
 				this.handleDoorCollision(xCord , yCord);
-				console.log('door')
 				break;
 
 			// default:
@@ -394,12 +351,19 @@ class Hero{
 			}
 	} 
 
+	//checking bottom boundary collision
+	checkBoundaryCollision(){
+		if(this.hero.heroPositionY >= this.canvas.canvasHeight){
+			gameOver = true;
+		}
+	}
+
 	checkCollisionBottom(x , y){
 		//for bottom side wall of the elements
 		// console.log(y);
-		if(this.heroPositionY < (y + SPRITE_SIZE) && this.oldvalueY >=(y + SPRITE_SIZE)){
-			// console.log(this.heroPositionX , this.heroPositionY);
+		if(this.heroPositionY < (y + SPRITE_SIZE) && this.oldvalueY >= (y + SPRITE_SIZE)){
 			this.directionY = 0;
+			// this.directionX = 0;
 			// controller[1] = false;
 			this.heroPositionY = y + SPRITE_SIZE;
 		 }
@@ -426,24 +390,21 @@ class Hero{
 	 }
 
  	checkCollisionRight(x , y){
- 		if(this.heroPositionX  <= (x + SPRITE_SIZE) && this.oldvalueX >=(x + SPRITE_SIZE)){
- 			// console.log('collision-right', this.heroPositionX , this.oldvalueX);
- 			if(controller[0]){
+ 		// console.log('right here');
+ 		if(this.heroPositionX  < (x + SPRITE_SIZE) && this.oldvalueX >=(x + SPRITE_SIZE)){
+ 			console.log(x + SPRITE_SIZE);
  			this.directionX = 0;
- 			this.heroPositionX = x + SPRITE_SIZE + 5;
+ 			this.heroPositionX = x + SPRITE_SIZE;
  			return true;
- 			}else{
- 				this.directionX = 5;
- 				return false;
- 			}
  		}
  	}
 
  	checkCollisionTop(x,y){
- 		// console.log(y);
+ 		// console.log('top here');
  		
- 		if((this.heroPositionY + SPRITE_SIZE) > y  &&  (this.oldvalueY+SPRITE_SIZE) <= y ){
- 			// console.log('collision-top');
+ 		if(this.heroPositionY + SPRITE_SIZE > y  &&  (this.oldvalueY+SPRITE_SIZE) <= y ){
+ 			console.log('collision-top');
+ 			console.log(this.heroPositionY , y);
  			// console.log('collision');
  			this.heroPositionY = y - SPRITE_SIZE;
  			this.directionY = 0;
@@ -453,6 +414,8 @@ class Hero{
  			sideplacementleft = 0;
  			sideplacementright = 0;
  			controller[1] = false;
+ 			// this.directionX = 5;
+ 			// this.directionY = 5;
  			// controller[1] = false;
  			// if(controller[1]){
  			// 	this.directionY = 5;
@@ -467,9 +430,6 @@ class Hero{
   		this.directionX = 0;
   		this.heroPositionX = x - SPRITE_SIZE;
   		return true;
-  	}else{
-  		this.directionX = 5;
-  		return false;
   	}
   }
 
@@ -482,18 +442,19 @@ class Hero{
   		switch(mapCurrentLevel.mapLevel[index]){
   			case 3:
   				mapCurrentLevel.mapLevel[index] = 0;
-  				console.log('points');
+  				this.scoreBoardObj.scoreCount += 100;
   				break;
 
   			case 4:
   				mapCurrentLevel.mapLevel[index] = 0;
-  				console.log('double-points');
+  				this.scoreBoardObj.scoreCount += 500;
   				break;
 
   			case 5:
   				mapCurrentLevel.mapLevel[index] = 0;
   				doorOpen = true;
-  				console.log('door open');
+  				this.textMessage.message = 'GO THRU THE DOOR';
+  				this.scoreBoardObj.scoreCount += 900;
   				break;
 
   			case 9: 
@@ -502,19 +463,8 @@ class Hero{
   				console.log('gun');
   				break;
   		}
-  		// let value = this.mapLayouts.level1[(i*mapLevel1.tileWidth) + j];
-  		// console.log(value);
-  		// //assgining roles for different consumables
-  		// this.assignCollisionRoles(value);
   	}
   }
-
-  // assignCollisionRoles(value){
-  // 	switch(value){
-  // 		case 3:
-  // 			this.mapLayouts.level1[]
-  // 	}
-  // }
 
  	resetDirection(){
  		this.directionX = 5;
@@ -531,43 +481,63 @@ class Hero{
 			}else if(this.frameCount >= 200){
 				gameOver = false;
 				this.frameCount = 0;
-				console.log(this.heroInitialPosX , this.heroInitialPosY);
-				this.heroPositionX = this.heroInitialPosX;
-				this.heroPositionY = this.heroInitialPosY;
+				this.scoreBoardObj.daveLives--;
+				this.initHeroPosition();
 			}
+		}
+		if(this.scoreBoardObj.daveLives === 0){
+			this.scoreBoardObj.daveLives = 0;
+			this.textMessage.message = 'GAME OVER!!!'
+			animationFrameStart = false;			
 		}
  	}
 
- 
-
- 	// getoldValue(){
- 	// 	this.oldvalueX = this.heroPositionX;
- 	// 	this.oldvalueY = this.heroPositionY;
- 	// }
-
- 	// setoldvalue(){
-
- 	// }
-
- 	// **************improve this part ****************
  	handleDoorCollision(x, y){
-		if(this.heroPositionX  < (x + SPRITE_SIZE + 5) && this.oldvalueX >=(x + SPRITE_SIZE)){
-			if(controller[0]){
+ 		this.doorCollison = true;
+ 		if(!doorOpen){
+			if(this.heroPositionX  < (x + SPRITE_SIZE) && this.oldvalueX >=(x + SPRITE_SIZE)){
 				this.directionX = 0;
-				this.heroPositionX = x + SPRITE_SIZE + 5;
-				this.gameComplete = true;
+				this.heroPositionX = x + SPRITE_SIZE;
 			}
 		}
+		else if(doorOpen){
+			this.gameComplete = true;
+		}
+		if(this.scoreBoardObj.currentLevel === FINAL_LEVEL){
+ 				lastLevel = true;
+ 		}
  	}
  		
  	
  	checkDoorCondition(){
  		if(this.gameComplete){
- 			gameLevel++;
+ 			if(!lastLevel){
+ 				this.lvlTransitionAnimation.drawTransitionMap();
+ 				if(this.lvlTransitionAnimation.animationOver){
+ 					this.textMessage.message = '';
+ 					this.scoreBoardObj.currentLevel++;
+ 					this.initLevel();
+ 				}
+ 			}
+ 			if(lastLevel){
+ 				this.textMessage.message = 'GAME COMPLETE';
+ 				animationFrameStart = false;
+ 			}
  		}
  	}
 
- //****************************************************
+ 	initLevel(){	
+ 			this.initHeroPosition();
+ 			this.gameComplete = false;
+ 			this.doorCollison = false;
+ 			doorOpen = false;
+ 			gunObtained= false;
+ 		}
+
+ 	initHeroPosition(){
+ 		this.heroPositionX = this.heroInitialPosX;
+ 		this.heroPositionY = this.heroInitialPosY;
+ 	}
 
 
  	eventController(){
@@ -604,6 +574,9 @@ class Hero{
 				// controller = [false , false , false];
 				controller[0] = false; //left-arrow
 				controller[2] = false; //right-arrow
+				// if(event.keyCode === 38){
+				// 	this.gravity = 'on';
+				// }
 				specialController[0] = false;
 		});
 	}
