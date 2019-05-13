@@ -9,9 +9,6 @@ class SpriteControl{
 		this.spriteInitialPosX = 0;  
 		this.spriteInitialPosY = 0;
 
-		// this.spriteLeftInitialPosX = 250;
-		// this.spriteRightInitialPosX = 0;
-
 		//sprite size to be  clipped
 		this.spriteWidth = spriteWidth;
 		this.spriteHeight = spriteHeight;
@@ -47,10 +44,8 @@ class SpriteControl{
 
 
 	drawSpriteUp(directionX , directionY , buttonPress  , charRightFaced){
-
-		// this.ctx.drawImage(this.spriteRefrence , this.spriteInitialPosX , this.spriteInitialPosY , this.spriteWidth , this.spriteHeight , this.spritePlotX , this.spritePlotY , this.elmntWidth , this.elmntHeight);
 		this.frameCount++;
-	console.log(this.spritePlotY);
+		console.log(this.spritePlotY);
 		//holding the movement of character for 3 frames (to manage speed)
 		if(this.frameCount > 2){
 			if(buttonPress){
@@ -59,10 +54,6 @@ class SpriteControl{
 					}else{
 						this.spriteInitialPosX = 400;
 					}
-					
-						// this.spritePlotY = directionY;
-						// console.log(this.spritePlotY);
-					// this.spritePlotX = this.spritePlotX;
 				}
 			this.frameCount = 0;
 		}
@@ -74,8 +65,6 @@ class SpriteControl{
 		if(this.frameCount > 3){
 			if(buttonPress){
 				this.spriteInitialPosX += 50;
-				// this.spritePlotX = directionX;
-				// this.spritePlotY = directionY;
 				this.countSpriteImage++;
 				if(this.countSpriteImage >= this.spriteNumber ){ 
 			 		this.spriteInitialPosX = 50;
@@ -92,8 +81,6 @@ class SpriteControl{
 		if(this.frameCount > 3){
 			if(buttonPress){
 				this.spriteInitialPosX +=50;
-				// this.spritePlotX = directionX;
-				// this.spritePlotY = directionY;
 				this.countSpriteImage++;
 				if(this.countSpriteImage >= this.spriteNumber){
 					this.spriteInitialPosX = 250;

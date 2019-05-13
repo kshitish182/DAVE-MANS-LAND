@@ -92,15 +92,8 @@ class TrollElements{
 		if(objRefrence.spikeCollision){
 			objRefrence.renderSpikes();
 		}
-			
-		// if(this.spike2.spikeCollision){
-		// 	this.spike2.renderSpikes();	
-		// }
-
-		// console.log(spike1);
 		
 		this.checkSpikeCollision(objRefrence);	
-		// this.checkSpikeCollision(this.spike2);
 	}
 
 

@@ -1,11 +1,10 @@
 
 
-let spriteHeroInitialX = 0;
-let spriteHeroInitialY = 0;
-let countSpriteImage = 0;
-let countSpriteImageHero = 0;
-// let heroPositionX = 100;
-// let heroPositionY = 400;
+// let spriteHeroInitialX = 0;
+// let spriteHeroInitialY = 0;
+// let countSpriteImage = 0;
+// let countSpriteImageHero = 0;
+
 
 class Game{
 	constructor(canvasWidth, canvasHeight , tileMap , context){

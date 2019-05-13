@@ -37,7 +37,6 @@ class Monster{
 	}
 
 	monsterCollision(){
-		// console.log(this.hero.heroPositionX , this.hero.heroPositionY , this.monsterPositionX , this.monsterPositionY);
 		if( this.hero.heroPositionX + SPRITE_SIZE >= this.monsterPositionX
 													&&
 			 (this.hero.heroPositionX ) <= this.monsterPositionX + this.monsterWidth

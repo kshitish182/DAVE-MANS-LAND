@@ -1,3 +1,8 @@
+//all the required tile maps used in the game
+
+
+//general game tile map for level 1 and level 2
+
 let mapLayouts = {
 	level1 : [
 		1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,
@@ -25,6 +30,8 @@ let mapLayouts = {
 	]
 }
 
+
+//tile mapping for collision map level wise
 let collisionMap = {
 	level1 : [
 		0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0,
@@ -53,6 +60,8 @@ let collisionMap = {
 	]
 }
 
+
+//map for level transition animation(dave walking through the door)
 let lvltransitionMap = [
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

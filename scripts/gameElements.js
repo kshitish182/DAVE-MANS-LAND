@@ -1,12 +1,5 @@
+//here all the global variable are initialiased
 
-let imageLoaded = false;
-let gameOver = false;
-let gameLevel = 1;
-let doorOpen = false;
-let gunObtained = false;
-
-let specialController = [false , false];
-let controller = [false, false, false]; 
 
 //gameElement information
 
@@ -149,18 +142,35 @@ outerCanvas.style.right = '0';
 outerCanvas.style.top = '50px';
 outerCanvas.style.border = '1px solid black';
 
+//some global variables required for the project
+let gameOver = false;
+let doorOpen = false;
+let gunObtained = false;
 
+let specialController = [false , false];
+let controller = [false, false, false]; 
 
 let startMenu = document.getElementById('startMenu');
 let scoreBoardContainer = document.getElementById('scoreBoardContainer');
 let messageContainer = document.getElementById('messageContainer');
 
 
+let jumpCount = 0;
+let sideplacementright = 0;
+let sideplacementleft = 0;
+let buffer = 10;
+let lastLevel = false;
+
+
+const SPRITE_SIZE = 50;
+const FINAL_LEVEL = 2;
+
 
 // outerCanvas.style.border = "1px solid black";
 
 let startGame = document.getElementById('startButton');
 
+//js code for the menu
 startGame.addEventListener('click' , event =>{
 	console.log(event);
 	startMenu.style.display = 'none';

@@ -27,9 +27,6 @@ class Bullets{
 				if(this.hero.charRightFaced){
 					this.bulletFire = true;
 				}
-				// else if(!this.hero.charRightFaced){
-				// 	this.renderBulletLeft();
-				// }
 			}
 		}
 	}
