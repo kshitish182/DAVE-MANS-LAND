@@ -54,7 +54,7 @@ class Hero{
 		this.heroSpriteLeft = new SpriteControl(this.ctx , character , 50 , 50 , this.heroPositionX , this.heroPositionY , 50 , 50 ,3);
 		this.heroSpriteUp = new SpriteControl(this.ctx , character , 50 ,50 , this. heroPositionX, this.heroPositionY,50 ,50 , 9);
 		this.heroDeath = new SpriteControl(this.ctx, charDeath , 48 , 50 , this.heroPositionX , this.heroPositionY , 50 ,50 , 1);
-		this.lvlTransitionAnimation = new AnimationHandler(lvltransitionMap , this.ctx , this.textMessage);
+		this.lvlTransitionAnimation = new AnimationHandler(this.ctx , this.textMessage, lvltransitionMap);
 		this.gameOverAnimation = new AnimationHandler(this.ctx , this.textMessage);
 		this.gameCompleteAnimation = new AnimationHandler(this.ctx , this.textMessage);
 		this.canvas = canvas;
@@ -166,6 +166,7 @@ class Hero{
 			
 			this.updatePosition();	
 			this.renderHero(buttonPress);
+			this.checkBoundaryCollision();
 			// this.getElementsPosition(mapCurrentLevel);
 			this.initGravity();
 	}
@@ -353,7 +354,8 @@ class Hero{
 
 	//checking bottom boundary collision
 	checkBoundaryCollision(){
-		if(this.hero.heroPositionY >= this.canvas.canvasHeight){
+		if(this.heroPositionY >= 500){ // 500 is the canvas height
+			console.log('collision detected')
 			gameOver = true;
 		}
 	}

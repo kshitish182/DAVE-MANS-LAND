@@ -64,8 +64,9 @@ class Map{
 		// }
 		for(let i = 0 ; i < this.tileHeight ; i++){
 			for(let j = 0 ; j< this.tileWidth ; j++){
+				// console.log((i*this.tileWidth + j));
 				switch(this.mapLevel[((i*this.tileWidth) + j)]){
-					// console.log((i*this.tileWidth + j));
+					
 					case 1:
 						this.ctx.drawImage(redBrick , j*this.elementSize , i*this.elementSize , this.elementSize , this.elementSize);
 					break;
